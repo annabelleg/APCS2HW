@@ -24,12 +24,18 @@ public class Recursion implements hw1{
     }
 
     public double sqrt(double n){
-	return sqrtH(n, 1.0);
+	return sqrtH(n, n/2);
     }
     public double sqrtH(double n, double guess){
+	if (n < 0)
+	    throw new IllegalArgumentException();
 	if (Math.abs((guess * guess) - n) <= 0.00001)
 	    return Math.floor(guess * 100000) / 100000;
 	return sqrtH(n, (n / guess + guess) / 2);
     }
 
+    public static void main(String[]args){
+	Recursion r = new Recursion();
+	System.out.println(r.sqrt(0.5));
+    }
 }
