@@ -12,6 +12,9 @@ public class KnightsTour{
     //instance variable
     private int[][]board;
 
+    public String name(){
+	return "gary.annabelle";
+    }
 
     //terminal specific character to move the cursor
     private String go(int x,int y){
@@ -33,11 +36,12 @@ public class KnightsTour{
 	for (int r=0; r < size; r++){
 	    for (int c = 0; c < size; c++){
 		ans += board[r][c] + " ";
+		if (board[r][c] < 10) ans += " ";
 	    }
 	    ans += "\n";
 	}
-	return ans;
-	//	return hide + go(0,0) + ans + "\n" + show;
+	//	return ans;
+	return hide +clear + go(0,0) + ans + "\n" + show;
     }
 
     public KnightsTour(int size){
@@ -50,20 +54,50 @@ public class KnightsTour{
     }
 
     public void solve(int startx, int starty){
-				
+	solve(startx, starty, 1);
     }
 
 
 		
     public boolean solve(int x,int y,int currentMoveNumber){
-	System.out.println(this);
-	wait(20);
-				
+	
+	if (x >= board.length || y >= board.length || x < 0 || y < 0)
+	    return false;
+	if (currentMoveNumber == board.length * board.length ){
+	    board[x][y] = currentMoveNumber;
+	    return true;
+	}
+	if (board[x][y] == 0){
+	    System.out.println(this);
+	    wait(10);
+	    board[x][y] = currentMoveNumber;
+	    if (solve(x+1,y+2,currentMoveNumber+1) ||
+		solve(x+2,y+1,currentMoveNumber+1) ||
+		solve(x-1,y+2,currentMoveNumber+1) ||
+		solve(x-2,y+1,currentMoveNumber+1) ||
+		solve(x+1,y-2,currentMoveNumber+1) ||
+		solve(x+2,y-1,currentMoveNumber+1) ||
+		solve(x-1,y-2,currentMoveNumber+1) ||
+		solve(x-2,y-1,currentMoveNumber+1)){
+		return true;
+	    }
+	    board[x][y] = 0;
+	}
+	return false;
+    }
+    public boolean isSolved(){
+	for (int r = 0; r < board.length; r ++){
+	    for (int c = 0; c < board.length; c++){
+		if (board[r][c] == board.length * board.length) return true;
+	    }
+	}
 	return false;
     }
 
     public static void main(String[]args){
-	KnightsTour k = new KnightsTour(5);
+	KnightsTour k = new KnightsTour(3);
+	k.solve(0,0);
 	System.out.println(k);
+	System.out.println(k.isSolved());
     }
 }
