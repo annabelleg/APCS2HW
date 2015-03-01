@@ -18,17 +18,17 @@ public class makelake{
 	return stuff;
     }
 
-    public void loadData(){
+   /* public void loadData(){
 	int i = 4;
 	data = new int[stuff.get(0)][stuff.get(1)];
 	while (4 < ( ){
 
 	    i++;
 	}
-    }    
+    }    */
     
     public static void main(String[]args){
-	makelake l = new makelake("makelake.txt");
+	makelake l = new makelake("test.txt");
 	System.out.println(l.Pr());
     }
 }
