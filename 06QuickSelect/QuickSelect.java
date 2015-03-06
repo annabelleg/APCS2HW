@@ -1,16 +1,18 @@
+import java.util.Arrays;
 public class QuickSelect{
 
     public static void partition(int[]ary, int si, int ei){
 	int[] D = new int[ary.length];
 	for (int i = 0; i < si; i++){
-	    D[i] = ary[i];
+	    if (i < si || i > ei){
+		D[i] = ary[i];
+	    }
 	}
-	for (int i = ei; i < ary.length; i++){
-	    D[i] = ary[i];
-	}
-	int pivot = ary[si];
-	int i = si+1;
-	while (si != ei){
+	int ri = si + (int)(Math.random()*(ei-si+1));
+	int pivot = ary[ri];
+	System.out.println("pivot = " + pivot);
+	int i = si;
+	while (i <= ei){
 	    if (ary[i] < pivot){
 		D[si] = ary[i];
 		si++;
@@ -20,22 +22,19 @@ public class QuickSelect{
 		ei--;
 		i++;
 	    }
-	
+	    System.out.println(Arrays.toString(D));
 	}
 	D[si] =pivot;
+
         for (int x = 0; x < ary.length; x++){
 	    ary[x] = D[x];
 	}
     }
 
     public static void main(String[]args){
-	int[]a = {5,6,20000,534,4,967665765,11,1,8,-1};
-        partition(a,0,9);
-	System.out.print("[");
-	for (int i = 0; i < a.length-1; i++){
-	    System.out.print(a[i] + ", ");
-	}
-	System.out.println(a[a.length-1] + "] \n");
+	int[]a = {9,3,6,1,8,4,0,5,2,7};
+        partition(a,0,a.length-1);
+	System.out.println(Arrays.toString(a));
 	
     }
 }
