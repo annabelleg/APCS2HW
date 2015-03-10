@@ -23,7 +23,6 @@ public class QuickSelect{
     public static int partitionInPlace(int[]ary, int si, int ei){
 	int ri = si + (int)(Math.random()*(ei-si+1));
 	int pivot = ary[ri];
-	//	System.out.println("pivot = " + pivot);
 	int start = si;
 	int end = ei;
 	int temp1,temp2;
@@ -74,11 +73,30 @@ public class QuickSelect{
 	    currentVal = partitionInPlace(a,start,end);
 	}
 	return a[n];
-        
     }
+
+    public static void quickSort(int[]ary){
+	quickSortH(ary, 0, ary.length-1);
+    }
+
+    public static void quickSortH(int[] ary, int start, int end){
+	if (start >= end){
+	    return;
+	}
+	int pivot = partitionInPlace(ary, start, end);
+	quickSortH(ary, start, pivot-1);
+	quickSortH(ary, pivot+1, end);
+    }
+
     public static void main(String[]args){
-	int[]a = {17,9,3,6,1,14,8,4,0,5,2,7,10,16,35};
-	System.out.println(quickSelect(a,8));
-    
+	int[]a = {-5,17,9,3,6,1,-7,14,8,4,0,5,2,7,-2,10,16,35};
+	int[]b = {-5,17,9,3,6,1,-7,14,8,4,0,5,2,7,-2,10,16,35};
+	QuickSelect.quickSort(a);
+	Arrays.sort(b);
+        if (Arrays.equals(a, b)){
+	    System.out.println("True"+ Arrays.toString(a));
+	}else{
+	    System.out.println("noooooo");
+	}
     }
 }
