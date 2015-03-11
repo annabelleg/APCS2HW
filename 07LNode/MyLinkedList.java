@@ -22,10 +22,17 @@ public class MyLinkedList{
 	while (current.getNext()!=null){
 	    current = current.getNext();
 	}
+	
 	current.setValue(value);
-	current.setNext(null);
+	current.setNext(LNodenull);
 
     }
+    /*  public int get(int index);
+    public void set(int index,int value);
+    public void add(int value, int index);
+    public int remove(int index);
+    public int size();
+    public int indexOf(int value);*/
     public static void main(String[]args){
 	MyLinkedList l = new MyLinkedList(3);
 	l.add(2);
