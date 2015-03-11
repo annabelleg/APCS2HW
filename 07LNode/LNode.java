@@ -16,7 +16,7 @@ public class LNode{
 	value = n;
     }
     public String toString(){
-	return value;
+	return ""+value;
     }
 
 }
