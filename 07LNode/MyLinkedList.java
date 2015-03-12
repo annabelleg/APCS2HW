@@ -19,6 +19,10 @@ public class MyLinkedList{
     }
 
     public boolean add(int value){
+    	if (head==null){
+	    head = new LNode(value);
+	    return true;
+	}
 	current = head;
 	while (current.getNext()!=null){
 	    current = current.getNext();
