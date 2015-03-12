@@ -1,38 +1,39 @@
 public class MyLinkedList{
-    LNode head = new LNode();
+    LNode head;
     LNode current;
 
+    public MyLinkedList(){
+    }
     public MyLinkedList(int v){
-	head.setValue(v);
-	head.setNext(null);
+	head = new LNode(v);
     }
 
     public String toString(){
-	String r = "[";
+	String r = "[ ";
 	current = head;
-	while (current.getNext()!=null){
-	    r = r +current.getValue() + ",";
+	while(current!=null){
+	    r += " "+current.getValue()+",";
 	    current = current.getNext();
 	}
-	r+=current.getValue() + "]";
-	return r;
+	return r.substring(0,r.length()-1) + " ]";
     }
-    public void add(int value){
+
+    public boolean add(int value){
 	current = head;
 	while (current.getNext()!=null){
 	    current = current.getNext();
 	}
 	LNode next = new LNode(value);
 	current.setNext(next);
-
+	return true;
     }
-    public void add(int index, int value){
+
+    public boolean add(int index, int value){
 	if (index < 0 || index > this.size()){
 	    throw new ArrayIndexOutOfBoundsException();
 	}
 	if (index == this.size()){
 	    this.add(value);
-	    return;
 	}
 	current = head;
 	while (index > 0){
@@ -40,12 +41,15 @@ public class MyLinkedList{
 	    index--;
 	}
 	//get val and next node of place you're shifting down
-	int temp = current.getValue();
+	LNode newVal = new LNode(value);
+	LNode temp = current.getNext();
 	//set val of index
-	current.setValue(value);
+	current.setNext(newVal);
 	//shift values down
-	current.setNext(new LNode(temp, current.getNext()));
+	newVal.setNext(temp);
+	return true;
     }
+
     public int size(){
 	int s = 0;
 	current = head;
@@ -55,6 +59,7 @@ public class MyLinkedList{
 	}
 	return s+1;
     }
+
     public int get(int index){
 	current = head;
 	while (index > 0){
@@ -64,6 +69,7 @@ public class MyLinkedList{
 	return current.getValue();
 	
     }
+
     public void set(int index, int value){
 	current = head;
 	while (index > 0){
@@ -72,6 +78,7 @@ public class MyLinkedList{
 	}
 	current.setValue(value);
     }
+
     public int remove(int index){
 	current = head;
 	while (index > 0){
@@ -106,7 +113,7 @@ public class MyLinkedList{
 
 
     public static void main(String[]args){
-	MyLinkedList l = new MyLinkedList(3);
+	MyLinkedList l = new MyLinkedList();
 	l.add(2);
 	l.add(7);
 	l.add(4);
@@ -117,9 +124,8 @@ public class MyLinkedList{
 	l.set(4,-999999);
 	System.out.println(l.remove(4));
 	System.out.println(l);
-	System.out.println(l.size());
+	/*	System.out.println(l.size());
 	System.out.println(l.get(0));
-	System.out.println(l.indexOf(5));
+	System.out.println(l.indexOf(5));*/
     }
 }
-
