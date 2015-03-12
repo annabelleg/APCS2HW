@@ -22,9 +22,8 @@ public class MyLinkedList{
 	while (current.getNext()!=null){
 	    current = current.getNext();
 	}
-	
-	current.setValue(value);
-	current.setNext(LNodenull);
+	LNode next = new LNode(value);
+	current.setNext(next);
 
     }
     /*  public int get(int index);
@@ -40,4 +39,3 @@ public class MyLinkedList{
     }
 }
 
- 
