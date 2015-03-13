@@ -1,11 +1,12 @@
 public class MyLinkedList{
-    LNode head;
-    LNode current;
+    LNode head, tail, current;
+    int size;
 
     public MyLinkedList(){
     }
     public MyLinkedList(int v){
 	head = new LNode(v);
+	size=1;
     }
 
     public String toString(){
@@ -19,25 +20,30 @@ public class MyLinkedList{
     }
 
     public boolean add(int value){
-    	if (head==null){
+	if (head==null){
 	    head = new LNode(value);
+	    size++;
 	    return true;
+	}if (tail == null){
+	    tail = new LNode(value);
+	    head.setNext(tail);
+	}else{
+	    tail.setNext(new LNode(value));
+	    tail = tail.getNext();
 	}
-	current = head;
-	while (current.getNext()!=null){
-	    current = current.getNext();
-	}
-	LNode next = new LNode(value);
-	current.setNext(next);
+	size++;
 	return true;
     }
-
+    
     public boolean add(int index, int value){
-	if (index < 0 || index > this.size()){
+	if (index < 0 || index > this.size){
 	    throw new ArrayIndexOutOfBoundsException();
 	}
-	if (index == this.size()){
-	    this.add(value);
+	if (head==null){
+	    add(value);
+	}
+	if (index == this.size){
+	    add(value);
 	}
 	current = head;
 	while (index > 0){
@@ -51,20 +57,24 @@ public class MyLinkedList{
 	current.setNext(newVal);
 	//shift values down
 	newVal.setNext(temp);
+	size++;
 	return true;
     }
 
     public int size(){
-	int s = 0;
-	current = head;
-	while (current.getNext() != null){
-	    s++;
-	    current = current.getNext();
-	}
-	return s+1;
+	return size;
     }
 
     public int get(int index){
+	if (index < 0 || index >= size){
+	    throw new ArrayIndexOutOfBoundsException();
+	}
+	if (index == 0){
+	    return head.getValue();
+	}
+	if (index == size-1){
+	    return tail.getValue();
+	}
 	current = head;
 	while (index > 0){
 	    index--;
@@ -119,17 +129,17 @@ public class MyLinkedList{
     public static void main(String[]args){
 	MyLinkedList l = new MyLinkedList();
 	l.add(2);
-	l.add(7);
+	/*	l.add(7);
 	l.add(4);
 	l.add(10);
 	l.add(-1);
-	l.add(7);
-	l.add(4, 10000);
-	l.set(4,-999999);
-	System.out.println(l.remove(4));
+	l.add(7);*/
+	//	l.add(4, 10000);
+	//	l.set(4,-999999);
+	//	System.out.println(l.remove(4));
 	System.out.println(l);
-	/*	System.out.println(l.size());
+	System.out.println(l.size());
 	System.out.println(l.get(0));
-	System.out.println(l.indexOf(5));*/
+	//	System.out.println(l.indexOf(5));
     }
 }
