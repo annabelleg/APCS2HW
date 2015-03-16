@@ -160,6 +160,6 @@ public class MyLinkedList<T>{
 	System.out.println(l);
 	System.out.println(l.size());
 	System.out.println(l.get(0));
-	//	System.out.println(l.indexOf(5));
+	System.out.println(l.indexOf(5));
     }
 }
