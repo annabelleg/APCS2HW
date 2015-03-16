@@ -1,12 +1,16 @@
-public class MyLinkedList{
-    LNode head, tail, current;
+public class MyLinkedList<T>{
+    LNode<T> head, tail, current;
     int size;
 
     public MyLinkedList(){
     }
-    public MyLinkedList(int v){
-	head = new LNode(v);
+    public MyLinkedList(T v){
+	head = new LNode<T>(v);
 	size=1;
+    }
+
+    public String name(){
+	return "gary.annabelle";
     }
 
     public String toString(){
@@ -19,23 +23,23 @@ public class MyLinkedList{
 	return r.substring(0,r.length()-1) + " ]";
     }
 
-    public boolean add(int value){
+    public boolean add(T value){
 	if (head==null){
-	    head = new LNode(value);
+	    head = new LNode<T>(value);
 	    size++;
 	    return true;
 	}if (tail == null){
-	    tail = new LNode(value);
+	    tail = new LNode<T>(value);
 	    head.setNext(tail);
 	}else{
-	    tail.setNext(new LNode(value));
+	    tail.setNext(new LNode<T>(value));
 	    tail = tail.getNext();
 	}
 	size++;
 	return true;
     }
     
-    public boolean add(int index, int value){
+    public boolean add(int index, T value){
 	if (index < 0 || index > this.size){
 	    throw new ArrayIndexOutOfBoundsException();
 	}
@@ -51,8 +55,8 @@ public class MyLinkedList{
 	    index--;
 	}
 	//get val and next node of place you're shifting down
-	LNode newVal = new LNode(value);
-	LNode temp = current.getNext();
+	LNode<T> newVal = new LNode<T>(value);
+	LNode<T> temp = current.getNext();
 	//set val of index
 	current.setNext(newVal);
 	//shift values down
@@ -65,7 +69,7 @@ public class MyLinkedList{
 	return size;
     }
 
-    public int get(int index){
+    public T get(int index){
 	if (index < 0 || index >= size){
 	    throw new ArrayIndexOutOfBoundsException();
 	}
@@ -84,7 +88,7 @@ public class MyLinkedList{
 	
     }
 
-    public void set(int index, int value){
+    public void set(int index, T value){
 	current = head;
 	while (index > 0){
 	    index--;
@@ -93,14 +97,14 @@ public class MyLinkedList{
 	current.setValue(value);
     }
 
-    public int remove(int index){
+    public T remove(int index){
 	current = head;
 	while (index > 0){
 	    index--;
 	    current = current.getNext();
 	}
-	int val = current.getValue();
-	LNode next = current.getNext();
+	T val = current.getValue();
+	LNode<T> next = current.getNext();
 	while(next.getNext()!=null){
 	    current.setValue(next.getValue());
 	    current = next;
@@ -111,7 +115,7 @@ public class MyLinkedList{
 	return val;
     }
     
-    public int indexOf(int value){
+    public int indexOf(T value){
 	if (head.getValue()==value) return 0;
 	current = head;
 	int counter = 0;
@@ -127,7 +131,7 @@ public class MyLinkedList{
 
 
     public static void main(String[]args){
-	MyLinkedList l = new MyLinkedList();
+	MyLinkedList<Integer> l = new MyLinkedList<Integer>();
 	l.add(2);
 	/*	l.add(7);
 	l.add(4);
