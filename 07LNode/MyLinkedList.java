@@ -1,4 +1,6 @@
-public class MyLinkedList<T>{
+import java.util.*;
+
+public class MyLinkedList<T> implements Iterable<T>{
     LNode<T> head, tail, current;
     int size;
 
@@ -85,6 +87,13 @@ public class MyLinkedList<T>{
     }
 
     public void set(int index, T value){
+	if (index < 0 || index > size){
+	    throw new ArrayIndexOutOfBoundsException();
+	}
+	if (index == size-1){
+	    tail.setValue(value);
+	    return;
+	}
 	current = head;
 	while (index > 0){
 	    index--;
@@ -100,6 +109,11 @@ public class MyLinkedList<T>{
 	if (head==null){
 	    throw new NullPointerException();
 	}
+	/*	if (index == size-1){
+	    T val = tail.getValue();
+	    tail.setNext(null);
+	    return val;
+	    }*/
 	current = head;
 	while (index > 0){
 	    current = current.getNext();
@@ -145,10 +159,37 @@ public class MyLinkedList<T>{
 	l.add(7);
 	l.add(4, 10000);
 	l.set(4,-999999);
-	System.out.println(l.remove(6));
+	System.out.println(l.remove(0));
 	System.out.println(l);
 	System.out.println(l.size());
 	System.out.println(l.get(0));
 	System.out.println(l.indexOf(5));
+    }
+    
+
+
+    public class MLLIterator<T> implements Iterator<T>{
+	LNode<T> current;
+	public T next(){
+	    current = current.getNext();
+	    return current.getValue();
+	}
+	public boolean hasNext(){
+	    if (current.getNext()==null){
+		return false;
+	    }
+	    return true;
+	}
+	public void remove(){
+	    throw new UnsupportedOperationException();
+	}
+	public MLLIterator(){
+
+	}
+    }
+    
+    public Iterator<T> iterator(){
+	MLLIterator<T> t = new MLLIterator<T>();
+	return t;
     }
 }
