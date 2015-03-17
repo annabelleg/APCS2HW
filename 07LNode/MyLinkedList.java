@@ -50,7 +50,7 @@ public class MyLinkedList<T>{
 	if (head==null){
 	    add(value);
 	}
-	if (index == this.size){
+	if (index == size){
 	    add(value);
 	}
 	current = head;
@@ -63,7 +63,6 @@ public class MyLinkedList<T>{
 	current.setNext(newVal);
 	newVal.setNext(temp);
 	size++;
-	//	return true;
     }
 
     public T get(int index){
@@ -95,22 +94,7 @@ public class MyLinkedList<T>{
     }
 
     public T remove(int index){
-	/*	current = head;
-	while (index > 0){
-	    index--;
-	    current = current.getNext();
-	}
-	T val = current.getValue();
-	LNode<T> next = current.getNext();
-	while(next.getNext()!=null){
-	    current.setValue(next.getValue());
-	    current = next;
-	    next = next.getNext();
-	}
-	current.setValue(next.getValue());
-	current.setNext(null);
-	return val;*/
-	if (index < 0 || index > this.size){
+        if (index < 0 || index >= size){
 	    throw new ArrayIndexOutOfBoundsException();
 	}
 	if (head==null){
@@ -122,13 +106,17 @@ public class MyLinkedList<T>{
 	    index--;
 	}
 	T val = current.getValue();
-	while(current.getNext()!=null){
-	    LNode<T> temp = current.getNext();
+	LNode<T> temp = current.getNext();
+	while (temp.getNext() != null){
 	    current.setValue(temp.getValue());
-	    current.setNext(temp);
+	    current = temp;
+	    temp = temp.getNext();  
 	}
+        current.setValue(temp.getValue());
+ 	current.setNext(null);
 	size--;
 	return val;
+	
     }
     
     public int indexOf(T value){
@@ -153,10 +141,11 @@ public class MyLinkedList<T>{
 	l.add(4);
 	l.add(10);
 	l.add(-1);
+       	System.out.println(l.get(3));
 	l.add(7);
 	l.add(4, 10000);
 	l.set(4,-999999);
-	//	System.out.println(l.remove(4));
+	System.out.println(l.remove(6));
 	System.out.println(l);
 	System.out.println(l.size());
 	System.out.println(l.get(0));
