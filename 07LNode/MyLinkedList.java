@@ -171,25 +171,26 @@ public class MyLinkedList<T> implements Iterable<T>{
     public class MLLIterator<T> implements Iterator<T>{
 	LNode<T> current;
 	public T next(){
-	    current = current.getNext();
-	    return current.getValue();
+	    if(hasNext()){
+		T ans = current.getValue();
+		current = current.getNext();
+		return ans;
+	    }else{
+		throw new NoSuchElementException();
+	    }
 	}
 	public boolean hasNext(){
-	    if (current.getNext()==null){
-		return false;
-	    }
-	    return true;
+	    return current!=null;
 	}
 	public void remove(){
 	    throw new UnsupportedOperationException();
 	}
-	public MLLIterator(){
-
+	public MLLIterator(LNode<T> head){
+	    current = head;
 	}
     }
     
     public Iterator<T> iterator(){
-	MLLIterator<T> t = new MLLIterator<T>();
-	return t;
+	return  new MLLIterator<T>(head);
     }
 }
