@@ -94,7 +94,12 @@ public class MyLinkedList<T> implements Iterable<T>{
 	}
 	current.setValue(value);
     }
-
+    public T remove(){
+	T val = head.getValue();
+	head = head.getNext();
+	size--;
+	return val;
+    }
     public T remove(int index){
         if (index < 0 || index >= size){
 	    throw new ArrayIndexOutOfBoundsException();
@@ -103,29 +108,22 @@ public class MyLinkedList<T> implements Iterable<T>{
 	    throw new NullPointerException();
 	}
 	if (index == 0){
-	    T val = head.getValue();
-	    head = head.getNext();
-	    return val;
+	    return remove();
 	}
-	if (index == size-1){
+	/*	if (index == size-1){
 	    T val = tail.getValue();
 	    tail.setNext(null);
 	    return val;
-	}
+	    }*/
 	current = head;
 	while (index > 0){
 	    current = current.getNext();
 	    index--;
 	}
 	T val = current.getValue();
-	LNode<T> temp = current.getNext();
-	while (temp.getNext() != null){
-	    current.setValue(temp.getValue());
-	    current = temp;
-	    temp = temp.getNext();  
-	}
-        current.setValue(temp.getValue());
- 	current.setNext(null);
+	current.setNext(null);
+        tail = current;
+	//	tail.setNext(null);
 	size--;
 	return val;
 	
@@ -167,7 +165,7 @@ public class MyLinkedList<T> implements Iterable<T>{
 
 
     public class MLLIterator<T> implements Iterator<T>{
-	LNode<T> current;
+	private LNode<T> current;
 	public T next(){
 	    if(hasNext()){
 		T ans = current.getValue();
