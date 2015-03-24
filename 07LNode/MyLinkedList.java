@@ -94,39 +94,38 @@ public class MyLinkedList<T> implements Iterable<T>{
 	}
 	current.setValue(value);
     }
+
     public T remove(){
 	T val = head.getValue();
 	head = head.getNext();
 	size--;
 	return val;
     }
-    public T remove(int index){
-        if (index < 0 || index >= size){
+  
+    public T remove(int index) {
+	if (index < 0 || index >= size) {
 	    throw new ArrayIndexOutOfBoundsException();
 	}
-	if (head==null){
-	    throw new NullPointerException();
-	}
-	if (index == 0){
+	T val;
+	if (index == 0) {
 	    return remove();
+	} else if (index == size - 1) {
+	    val = tail.getValue();
+	    tail = head;
+	    while (tail.getNext() != null) {
+		tail = tail.getNext();
+	    }
+	} else {
+	    current = head;
+	    while (index != 1) {
+		current = current.getNext();
+		index--;
+	    }
+	    val = current.getNext().getValue();
+	    current.setNext(current.getNext().getNext());
 	}
-	/*	if (index == size-1){
-	    T val = tail.getValue();
-	    tail.setNext(null);
-	    return val;
-	    }*/
-	current = head;
-	while (index > 0){
-	    current = current.getNext();
-	    index--;
-	}
-	T val = current.getValue();
-	current.setNext(null);
-        tail = current;
-	//	tail.setNext(null);
 	size--;
 	return val;
-	
     }
     
     public int indexOf(T value){
@@ -155,7 +154,7 @@ public class MyLinkedList<T> implements Iterable<T>{
 	l.add(7);
 	l.add(4, 10000);
 	l.set(4,-999999);
-	System.out.println(l.remove(0));
+	System.out.println(l.remove(2));
 	System.out.println(l);
 	System.out.println(l.size());
 	System.out.println(l.get(0));
