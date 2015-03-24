@@ -110,11 +110,7 @@ public class MyLinkedList<T> implements Iterable<T>{
 	if (index == 0) {
 	    return remove();
 	} else if (index == size - 1) {
-	    val = tail.getValue();
-	    tail = head;
-	    while (tail.getNext() != null) {
-		tail = tail.getNext();
-	    }
+	    return removeLast();
 	} else {
 	    current = head;
 	    while (index != 1) {
@@ -124,6 +120,17 @@ public class MyLinkedList<T> implements Iterable<T>{
 	    val = current.getNext().getValue();
 	    current.setNext(current.getNext().getNext());
 	}
+	size--;
+	return val;
+    }
+
+    public T removeLast(){
+	T val = tail.getValue();
+	tail = head;
+	while (tail.getNext().getNext() != null){
+	    tail = tail.getNext();
+	}
+	tail.setNext(null);
 	size--;
 	return val;
     }
@@ -159,6 +166,8 @@ public class MyLinkedList<T> implements Iterable<T>{
 	System.out.println(l.size());
 	System.out.println(l.get(0));
 	System.out.println(l.indexOf(5));
+	System.out.println(l.removeLast());
+	System.out.println(l);
     }
     
 
