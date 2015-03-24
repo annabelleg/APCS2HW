@@ -12,7 +12,7 @@ public class MyQueue<T>{
 	if (queue.size()==0){
 	    throw new NoSuchElementException();
 	}
-	return queue.remove(0);
+	return queue.remove();
     }
     public String toString(){
 	return queue.toString();
