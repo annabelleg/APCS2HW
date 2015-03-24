@@ -12,7 +12,7 @@ public class MyStack<T>{
 	return stack.tail.getValue();
     }
     public T pop(){
-	return stack.remove(stack.size()-1);
+        return  stack.removeLast();
     }
     public String toString(){
 	return stack.toString();
@@ -23,6 +23,8 @@ public class MyStack<T>{
 	a.push(4);
 	a.push(6);
 	a.push(8);
+	a.push(8);
+	System.out.println(a);
 	System.out.println(a.pop());
 	System.out.println(a);
     }
