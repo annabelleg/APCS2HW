@@ -1,5 +1,5 @@
 public class MyDeque<T>{
-    T[] data;
+    Object[] data;
     int head, tail;
 
     public void addFirst(T value){
@@ -21,25 +21,40 @@ public class MyDeque<T>{
     }
 
     public T removeFirst(){
-	T val = data[head];
+	T val = (T)data[head];
 	head++;
 	return val;
     }
     public T removeLast(){
-	T val = data[tail];
+	T val = (T)data[tail];
 	tail--;
 	return val;
     }
 
     public T getFirst(){
-	return data[head];
+	return (T)data[head];
     }
     public T getLast(){
-	return data[tail];
+	return (T)data[tail];
     }
 
-    public T[] resize(T[] orig){
-	T[] larger = new T[orig.length * 2];
+    public Object[] resize(Object[] orig){
+	Object[] larger = new Object[orig.length * 2];
+	int i = 0;
+	while (i < larger.length){
+	    if (head == 0){
+		larger[i] = orig[i];
+	    }else{
+		for (int h = head; h < orig.length; h++){
+		    larger[i] = orig[h];
+		}
+		for (int t = 0; t <= tail; t++){
+		    larger[i] = orig[t];
+		}
+	    }
+	    i++;
+	}
+	return larger;
     }
 
 }
