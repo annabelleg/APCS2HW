@@ -4,7 +4,13 @@ public class MyDeque<T>{
 
     public void addFirst(T value){
 	if (head+1 != tail && tail+1 != head){
-	    //do something
+	    if (head != 0 && tail != data.length-1){
+		data[head-1] = value;
+		head = head-1;
+	    }else{
+		data[data.length-1] = value;
+		head = data.length-1;
+	    }
 	}else{
 	    data = resize(data);
 	    addFirst(value);
@@ -13,7 +19,13 @@ public class MyDeque<T>{
 
     public void addLast(T value){
 	if (head+1 != tail && tail+1 != head){
-	    //do something
+	    if (tail != data.length-1 && head != 0){
+		data[tail+1] = value;
+		tail = tail+1;
+	    }else{
+		data[0] = value;
+		tail = 0;
+	    }
 	}else{
 	    data = resize(data);
 	    addFirst(value);
