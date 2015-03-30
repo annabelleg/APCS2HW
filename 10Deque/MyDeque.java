@@ -9,7 +9,12 @@ public class MyDeque<T>{
     }
 
     public void addFirst(T value){
-	if (head+1 != tail && tail+1 != head){
+	if (data[head] == null){
+	    head = 0;
+	    tail = 1;
+	    data[head] = value;
+	    return;
+	}else {//if (head+1 != tail && tail+1 != head){
 	    if (head != 0 && tail != data.length-1){
 		data[head-1] = value;
 		head = head-1;
@@ -17,9 +22,9 @@ public class MyDeque<T>{
 		data[data.length-1] = value;
 		head = data.length-1;
 	    }
-	}else{
-	    data = resize(data);
-	    addFirst(value);
+	    //	}else{
+	    //   data = resize(data);
+	    //	    addFirst(value);
 	}
     }
 
@@ -97,7 +102,8 @@ public class MyDeque<T>{
 
     public static void main(String[]args){
 	MyDeque<Integer> d = new MyDeque<Integer>();
-	//	addFirst(2);
+	d.addFirst(2);
+	d.addFirst(1);
 	System.out.println(d);
     }
 
