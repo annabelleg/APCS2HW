@@ -8,6 +8,7 @@ public class Maze{
     }						
     private static final int DFS = 1;
     private static final int BFS = 0;
+    MyDeque frontier;
     
     /** Same constructor as before...*/
     public Maze(String filename){   
@@ -46,7 +47,7 @@ public class Maze{
 	}
     }
     public String toString(){//do not do the funky character codes
-	
+	return "AARON IS A PRICK";
     }
     public String toString(boolean animate) {//do the funky character codes when animate is true
 	String ans = ""+maxx+","+maxy+"\n";
@@ -63,7 +64,9 @@ public class Maze{
      * When animate is true, print the board at each step of the algorithm.
      * Replace spaces with x's as you traverse the maze. 
      */
-    public boolean solveBFS(boolean animate){    }
+    public boolean solveBFS(boolean animate){  
+	if (animate==true) System.out.println(toString(true));
+    }
 
     /**Solve the maze using a frontier in a DFS manner. 
      * When animate is true, print the board at each step of the algorithm.
@@ -77,4 +80,10 @@ public class Maze{
     public boolean solveDFS(){
 	return solveDFS(false);
     }
+    /**return an array [x1,y1,x2,y2,x3,y3...]
+      *that contains the coordinates of the solution from start to end.
+      *Precondition :  solveBFS() OR solveDFS() has already been called (otherwise an empty array is returned)
+      *Postcondition:  the correct solution is in the returned array
+      */
+    public int[] solutionCoordinates(){ }  
 }
