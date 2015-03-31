@@ -1,110 +1,153 @@
-public class MyDeque<T>{
-    Object[] data;
-    int head, tail;
+import java.util.*;
 
-    public MyDeque(){
-	data = new Object[10];
-	head = 0;
-	tail = head;
-    }
+public class MyDeque<T> {
 
-    public void addFirst(T value){
-	if (data[head] == null){
-	    head = 0;
-	    tail = 1;
-	    data[head] = value;
-	    return;
-	}else {//if (head+1 != tail && tail+1 != head){
-	    if (head != 0 && tail != data.length-1){
-		data[head-1] = value;
-		head = head-1;
-	    }else{
-		data[data.length-1] = value;
-		head = data.length-1;
-	    }
-	    //	}else{
-	    //   data = resize(data);
-	    //	    addFirst(value);
-	}
-    }
+  private final int DEFAULT_SIZE = 10;
 
-    public void addLast(T value){
-	if (head+1 != tail && tail+1 != head){
-	    if (tail != data.length-1 && head != 0){
-		data[tail+1] = value;
-		tail = tail+1;
-	    }else{
-		data[0] = value;
-		tail = 0;
-	    }
-	}else{
-	    data = resize(data);
-	    addFirst(value);
-	}
-    }
+  private T[] items_;
+  private int head_;
+  private int tail_;
+  private int size_;
 
-    public T removeFirst(){
-	T val = (T)data[head];
-	head++;
-	return val;
-    }
-    public T removeLast(){
-	T val = (T)data[tail];
-	tail--;
-	return val;
-    }
+  @SuppressWarnings("unchecked")
+  public MyDeque() {
+    items_ = (T[]) (new Object[DEFAULT_SIZE]);
+    head_ = 0;
+    tail_ = DEFAULT_SIZE - 1;
+    size_ = 0;
+  }
 
-    public T getFirst(){
-	return (T)data[head];
+  private int normalize(int n) {
+    while (n < items_.length) {
+      n += items_.length;
     }
-    public T getLast(){
-	return (T)data[tail];
-    }
+    return n % items_.length;
+  }
 
-    public Object[] resize(Object[] orig){
-	Object[] larger = new Object[orig.length * 2];
-	int i = 0;
-	while (i < larger.length){
-	    if (head == 0){
-		larger[i] = orig[i];
-	    }else{
-		for (int h = head; h < orig.length; h++){
-		    larger[i] = orig[h];
-		}
-		for (int t = 0; t <= tail; t++){
-		    larger[i] = orig[t];
-		}
-	    }
-	    i++;
-	}
-	return larger;
+  @SuppressWarnings("unchecked")
+  private void resize() {
+    int newSize = size_;
+    if (size_ == items_.length) {
+      newSize = size_ * 2;
+    } else {
+      return;
     }
-    public String toString(){
-	if (data.length == 0){
-	    return "[ ]";
-	}
-	String r = "[ ";
-	if (head < tail){
-	    for (int i = head; i < tail; i++){
-		r+=data[i] + " ";
-	    }
-	}else{
-	    for (int h = head; h < data.length; h++){
-		r+=data[h] + " ";
-	    }
-	    for (int t = 0; t <= tail; t++){
-		r+=data[t] + " ";
-	    }
-	}
-	r+= "] \nhead = "+ head + "\ntail = " + tail;
-	return r;
+    
+    T[] newArray = (T[]) (new Object[newSize]);
+    int copyCounter = 0;
+    if (head_ <= tail_) {
+      for (int i = head_; i <= tail_; ++i) {
+        newArray[copyCounter] = items_[i];
+        copyCounter++;
+      }
+    } else {
+      for (int i = head_; i < items_.length; ++i) {
+        newArray[copyCounter] = items_[i];
+        copyCounter++;
+      }
+      for (int i = 0; i <= tail_; ++i) {
+        newArray[copyCounter] = items_[i];
+        copyCounter++;
+      }
     }
+    head_ = 0;
+    tail_ = size_ - 1;
+    items_ = newArray;
+  }
 
-    public static void main(String[]args){
-	MyDeque<Integer> d = new MyDeque<Integer>();
-	d.addFirst(2);
-	d.addFirst(1);
-	System.out.println(d);
-    }
+  public boolean add(T item) {
+    addLast(item);
+    return true;
+  }
 
+  public void addFirst(T item) {
+    resize();
+    head_ = normalize(head_ - 1);
+    items_[head_] = item;
+    size_++;
+  }
+
+  public void addLast(T item) {
+    resize();
+    tail_ = normalize(tail_ + 1);
+    items_[tail_] = item;
+    size_++;
+  }
+
+  public T getFirst() {
+    if (size_ == 0) {
+      throw new NoSuchElementException();
+    }
+    return items_[head_];
+  }
+
+  public T getLast() {
+    if (size_ == 0) {
+      throw new NoSuchElementException();
+    }
+    return items_[tail_];
+  }
+
+  public T removeFirst() {
+    if (size_ == 0) {
+      throw new NoSuchElementException();
+    }
+    size_--;
+    int index = head_;
+    head_ = normalize(head_ + 1);
+    return items_[index];
+  }
+
+  public T removeLast() {
+    if (size_ == 0) {
+      throw new NoSuchElementException();
+    }
+    size_--;
+    int index = tail_;
+    tail_ = normalize(tail_ - 1);
+    return items_[index];
+  }
+
+  public int size() {
+    return size_;
+  }
+
+  public String toString() {
+    if (size_ == 0) {
+      return "[ ]";
+    }
+    String out = "[ ";
+    if (head_ <= tail_) {
+      for (int i = head_; i <= tail_; ++i) {
+        out += items_[i] + " ";
+      }
+    } else {
+      for (int i = head_; i < items_.length; ++i) {
+        out += items_[i] + " ";
+      }
+      for (int i = 0; i <= tail_; ++i) {
+        out += items_[i] + " ";
+      }
+    }
+    return out + "]";
+  }
+
+  public static void main(String[] args) {
+    MyDeque<Integer> q = new MyDeque<Integer>();
+    q.add(1);
+    System.out.println(q + " " + q.size());
+    q.add(2);
+    System.out.println(q);
+    q.addFirst(1);
+    System.out.println(q);
+    for (int i = 0; i < 10; ++i) {
+      q.addFirst(i);
+    System.out.println(q);
+    }
+    System.out.println(q.removeFirst() + " " + q);
+    System.out.println(q.removeFirst() + " " + q);
+    System.out.println(q.removeLast() + " " + q);
+    System.out.println(q.getFirst() + " " + q);
+    System.out.println(q.getLast() + " " + q);
+  }
 }
