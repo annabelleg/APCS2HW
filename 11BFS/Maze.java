@@ -79,8 +79,20 @@ public class Maze{
      * Replace spaces with x's as you traverse the maze. 
      */
     public boolean solveBFS(boolean animate){  
-	if (animate) System.out.println(toString(true));
-	return animate;
+	if(startx < 0){
+	    System.out.println("No starting point 'S' found in maze.");
+	    return false;
+	}else{
+	    maze[startx][starty]=' ';
+	    return solveBFS(animate, startx,starty);
+	}
+    }
+
+    public boolean solveBFS(boolean animate, int x, int y){
+	if (animate){ 
+	    System.out.println(this.toString(true));
+	    wait(5);
+	}
     }
 
     /**Solve the maze using a frontier in a DFS manner. 
