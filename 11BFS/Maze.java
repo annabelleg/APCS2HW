@@ -1,3 +1,6 @@
+import java.io.*;
+import java.util.*;
+
 public class Maze{
     private static final String clear =  "\033[2J";
     private static final String hide =  "\033[?25l";
@@ -8,6 +11,9 @@ public class Maze{
     }						
     private static final int DFS = 1;
     private static final int BFS = 0;
+    private char[][] maze;
+    private int maxx,maxy;
+    private int startx,starty;
     MyDeque frontier;
     
     /** Same constructor as before...*/
@@ -29,20 +35,20 @@ public class Maze{
 		maxy++;
 		ans+=line;
 	    }
-	    catch(Exception e){
-		System.out.println("File: "+filename+" could not be opened.");
-		e.printStackTrace();
-		System.exit(0);
-	    }
+	}
+	catch(Exception e){
+	    System.out.println("File: "+filename+" could not be opened.");
+	    e.printStackTrace();
+	    System.exit(0);
+	}
 
-	    maze = new char[maxx][maxy];
-	    for(int i=0;i<ans.length();i++){
-		char c = ans.charAt(i);
-		maze[i%maxx][i/maxx]= c;
-		if(c=='S'){
-		    startx = i%maxx;
-		    starty = i/maxx;
-		}
+	maze = new char[maxx][maxy];
+	for(int i=0;i<ans.length();i++){
+	    char c = ans.charAt(i);
+	    maze[i%maxx][i/maxx]= c;
+	    if(c=='S'){
+		startx = i%maxx;
+		starty = i/maxx;
 	    }
 	}
     }
@@ -57,7 +63,7 @@ public class Maze{
 	    }
 	    ans += maze[i%maxx][i/maxx];
 	}
-	return hide()+invert()+go(0,0)+ans+"\n"+show();	
+	return hide+invert+go(0,0)+ans+"\n"+show;	
     }
 
     /**Solve the maze using a frontier in a BFS manner. 
@@ -65,14 +71,40 @@ public class Maze{
      * Replace spaces with x's as you traverse the maze. 
      */
     public boolean solveBFS(boolean animate){  
-	if (animate==true) System.out.println(toString(true));
+	if (animate) System.out.println(toString(true));
+	return animate;
     }
 
     /**Solve the maze using a frontier in a DFS manner. 
      * When animate is true, print the board at each step of the algorithm.
      * Replace spaces with x's as you traverse the maze. 
      */
-    public boolean solveDFS(boolean animate){    }
+    public boolean solveDFS(boolean animate){   
+	if(startx < 0){
+	    System.out.println("No starting point 'S' found in maze.");
+	    return false;
+	}else{
+	    maze[startx][starty]=' ';
+	    return solveDFS(animate, startx,starty);
+	}
+    }
+    public boolean solveDFS(boolean animate, int x, int y){
+	if (animate) System.out.println(this);
+	if (maze[x][y]=='E'){
+	    return true;
+	}
+	if (maze[x][y]==' '){
+	    maze[x][y] = '@';
+	    if (solveDFS(animate,x+1, y) ||
+		solveDFS(animate,x, y+1) ||	  
+		solveDFS(animate,x-1, y) ||
+		solveDFS(animate,x, y-1)){
+		return true;
+	    }
+	    maze[x][y] = '.';
+	}
+	return false;
+    }
 
     public boolean solveBFS(){
 	return solveBFS(false);
@@ -80,10 +112,17 @@ public class Maze{
     public boolean solveDFS(){
 	return solveDFS(false);
     }
+
+    // public void getNextMoves(spot){
+	//given a spot, find all possible spots and add them to the frontier
+    // }
     /**return an array [x1,y1,x2,y2,x3,y3...]
       *that contains the coordinates of the solution from start to end.
       *Precondition :  solveBFS() OR solveDFS() has already been called (otherwise an empty array is returned)
       *Postcondition:  the correct solution is in the returned array
       */
-    public int[] solutionCoordinates(){ }  
+    public int[] solutionCoordinates(){ 
+	int[] a = {0,0};
+	return a;
+    }  
 }
