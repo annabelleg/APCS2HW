@@ -14,6 +14,14 @@ public class Maze{
     private char[][] maze;
     private int maxx,maxy;
     private int startx,starty;
+    
+    public void wait(int millis){
+	try {
+	    Thread.sleep(millis);
+	}
+	catch (InterruptedException e) {
+	}
+    }
     MyDeque frontier;
     
     /** Same constructor as before...*/
@@ -53,7 +61,7 @@ public class Maze{
 	}
     }
     public String toString(){//do not do the funky character codes
-	return "AARON IS A PRICK";
+	return "";
     }
     public String toString(boolean animate) {//do the funky character codes when animate is true
 	String ans = ""+maxx+","+maxy+"\n";
@@ -89,7 +97,10 @@ public class Maze{
 	}
     }
     public boolean solveDFS(boolean animate, int x, int y){
-	if (animate) System.out.println(this);
+	if (animate){ 
+	    System.out.println(this.toString(true));
+	    wait(5);
+	}
 	if (maze[x][y]=='E'){
 	    return true;
 	}
@@ -125,4 +136,17 @@ public class Maze{
 	int[] a = {0,0};
 	return a;
     }  
+    public static void main(String[]args){
+	Maze f;
+	if(args.length < 1){
+	    f = new Maze("data1.dat");
+	}else{
+	    f = new Maze(args[0]);
+	}
+	System.out.println(f.clear);
+	f.solveDFS(true);
+				
+    }
+
+
 }
