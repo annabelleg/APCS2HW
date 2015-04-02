@@ -61,7 +61,14 @@ public class Maze{
 	}
     }
     public String toString(){//do not do the funky character codes
-	return "";
+	String ans = ""+maxx+","+maxy+"\n";
+	for(int i=0;i<maxx*maxy;i++){
+	    if(i%maxx ==0 && i!=0){
+		ans+="\n";
+	    }
+	    ans += maze[i%maxx][i/maxx];
+	}
+	return ans;
     }
     public String toString(boolean animate) {//do the funky character codes when animate is true
 	String ans = ""+maxx+","+maxy+"\n";
@@ -79,16 +86,28 @@ public class Maze{
      * Replace spaces with x's as you traverse the maze. 
      */
     public boolean solveBFS(boolean animate){  
+	if (animate){ 
+	    System.out.println(this.toString(true));
+	    wait(5);
+	}
 	if(startx < 0){
 	    System.out.println("No starting point 'S' found in maze.");
 	    return false;
 	}else{
 	    maze[startx][starty]=' ';
-	    return solveBFS(animate, startx,starty);
 	}
+	
+    }
+    public void findNextMove(int x, int y){
+	if (maze[x+1][y] == ' ' ||
+	    maze[x-1][y] == ' ' ||
+	    maze[x][y+1] == ' ' ||
+	    maze[x][y-1] == ' '){
+	    frontier.addLast(new int[] = {x,y});
+	}   
     }
 
-    public boolean solveBFS(boolean animate, int x, int y){
+    /* public boolean solveBFS(boolean animate, int x, int y){
 	if (animate){ 
 	    System.out.println(this.toString(true));
 	    wait(5);
@@ -117,7 +136,7 @@ public class Maze{
 	    return true;
 	}
 	if (maze[x][y]==' '){
-	    maze[x][y] = '@';
+	    maze[x][y] = 'X';
 	    if (solveDFS(animate,x+1, y) ||
 		solveDFS(animate,x, y+1) ||	  
 		solveDFS(animate,x-1, y) ||
