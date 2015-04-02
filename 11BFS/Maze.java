@@ -95,6 +95,7 @@ public class Maze{
 	    return false;
 	}else{
 	    maze[startx][starty]=' ';
+	    findMove(startx, starty);
 	}
 	return true;
     }
