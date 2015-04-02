@@ -22,7 +22,7 @@ public class Maze{
 	catch (InterruptedException e) {
 	}
     }
-    MyDeque frontier;
+    MyDeque<int[]> frontier;
     
     /** Same constructor as before...*/
     public Maze(String filename){   
@@ -96,28 +96,36 @@ public class Maze{
 	}else{
 	    maze[startx][starty]=' ';
 	}
-	
+	return true;
     }
     public void findNextMove(int x, int y){
-	if (maze[x+1][y] == ' ' ||
-	    maze[x-1][y] == ' ' ||
-	    maze[x][y+1] == ' ' ||
-	    maze[x][y-1] == ' '){
-	    frontier.addLast(new int[] = {x,y});
-	}   
-    }
-
-    /* public boolean solveBFS(boolean animate, int x, int y){
-	if (animate){ 
-	    System.out.println(this.toString(true));
-	    wait(5);
+	int[] a = new int[2];
+	if (maze[x+1][y] == ' '){
+	    a[0] = x; a[1] = y;
+	    frontier.addLast(a);
+	}else if (maze[x-1][y] == ' '){
+	    a[0] = x; a[1] = y;
+	    frontier.addLast(a);
+	}else if (maze[x][y+1] == ' '){
+	    a[0] = x; a[1] = y;
+	    frontier.addLast(a);
+	}else if (maze[x][y-1] == ' '){
+	    a[0] = x; a[1] = y;
+	    frontier.addLast(a);
 	}
     }
+    
+    /* public boolean solveBFS(boolean animate, int x, int y){
+       if (animate){ 
+       System.out.println(this.toString(true));
+       wait(5);
+       }
+       }
 
-    /**Solve the maze using a frontier in a DFS manner. 
-     * When animate is true, print the board at each step of the algorithm.
-     * Replace spaces with x's as you traverse the maze. 
-     */
+       /**Solve the maze using a frontier in a DFS manner. 
+       * When animate is true, print the board at each step of the algorithm.
+       * Replace spaces with x's as you traverse the maze. 
+       */
     public boolean solveDFS(boolean animate){   
 	if(startx < 0){
 	    System.out.println("No starting point 'S' found in maze.");
@@ -156,13 +164,13 @@ public class Maze{
     }
 
     // public void getNextMoves(spot){
-	//given a spot, find all possible spots and add them to the frontier
+    //given a spot, find all possible spots and add them to the frontier
     // }
     /**return an array [x1,y1,x2,y2,x3,y3...]
-      *that contains the coordinates of the solution from start to end.
-      *Precondition :  solveBFS() OR solveDFS() has already been called (otherwise an empty array is returned)
-      *Postcondition:  the correct solution is in the returned array
-      */
+     *that contains the coordinates of the solution from start to end.
+     *Precondition :  solveBFS() OR solveDFS() has already been called (otherwise an empty array is returned)
+     *Postcondition:  the correct solution is in the returned array
+     */
     public int[] solutionCoordinates(){ 
 	int[] a = {0,0};
 	return a;
@@ -176,7 +184,7 @@ public class Maze{
 	}
 	System.out.println(f.clear);
 	f.solveDFS(true);
-				
+	
     }
 
 
