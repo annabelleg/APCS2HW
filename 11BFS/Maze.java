@@ -197,6 +197,8 @@ public class Maze{
      *Precondition :  solveBFS() OR solveDFS() has already been called (otherwise an empty array is returned)
      *Postcondition:  the correct solution is in the returned array
      */
+     
+    //instead of doing what i do here, start from startx and starty an go through
     public MyDeque<int[]> solutionCoordinates(){ 
 	moves = new MyDeque<int[]>();
 	int x = findEnd()[0];
