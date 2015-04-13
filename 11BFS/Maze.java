@@ -1,3 +1,33 @@
+import java.io.*;
+import java.util.*;
+
+public class Maze{
+    private static final String clear =  "\033[2J";
+    private static final String hide =  "\033[?25l";
+    private static final String show =  "\033[?25h";
+    private static final String invert =  "[37";
+    private String go(int x,int y){
+	return ("\033[" + x + ";" + y + "H");
+    }						
+    private static final int DFS = 1;
+    private static final int BFS = 0;
+    private char[][] maze;
+    private int maxx,maxy;
+    private int startx,starty;  
+    public void wait(int millis){
+	try {
+	    Thread.sleep(millis);
+	}
+	catch (InterruptedException e) {
+	}
+    }
+    MyDeque<int[]> frontier, moves;
+    
+    /** Same constructor as before...*/
+    public Maze(String filename){   
+	frontier = new MyDeque<int[]>();
+	startx = -1;
+	starty = -1;
 	String ans = "";
 	try{
 	    Scanner in = new Scanner(new File(filename));
@@ -184,7 +214,7 @@
     public int[] findEnd(){
 	for (int r = 0; r < maxy; r++){
 	    for (int c = 0; c < maxx; c++){
-		if (maze[r][c] == 'E'){
+		if (maze[c][r] == 'E'){
 		    int[] e = {r,c};
 		    return e;
 		}
@@ -218,7 +248,8 @@
 	    f = new Maze(args[0]);
 	}
 	System.out.println(f.clear);
-	//	f.solveBFS(true);
+	f.solveDFS(true);
+	System.out.println(f.solutionCoordinates());
 	
     }
 
