@@ -13,8 +13,7 @@ public class Maze{
     private static final int BFS = 0;
     private char[][] maze;
     private int maxx,maxy;
-    private int startx,starty;
-    
+    private int startx,starty;  
     public void wait(int millis){
 	try {
 	    Thread.sleep(millis);
@@ -26,6 +25,7 @@ public class Maze{
     
     /** Same constructor as before...*/
     public Maze(String filename){   
+	frontier = new MyDeque<int[]>();
 	startx = -1;
 	starty = -1;
 	String ans = "";
@@ -59,6 +59,8 @@ public class Maze{
 		starty = i/maxx;
 	    }
 	}
+	int[]a = {startx, starty};
+	frontier.add(a);
     }
     public String toString(){//do not do the funky character codes
 	String ans = ""+maxx+","+maxy+"\n";
@@ -95,11 +97,25 @@ public class Maze{
 	    return false;
 	}else{
 	    maze[startx][starty]=' ';
-	    findMove(startx, starty);
+	    if (findNextMove(startx,starty)){
+		solveBFS(animate, startx, starty);
+	    }else{
+		return false;
+	    }
 	}
 	return true;
     }
-    public void findNextMove(int x, int y){
+    public boolean solveBFS(boolean animate, int x, int y){
+	if (maze[x][y] == 'E'){
+	    return true;
+	}else{
+	    int[] b = frontier.removeFirst();
+	    findNextMove(b[0], b[1]);
+	}
+	return false;
+    }
+  
+    public boolean findNextMove(int x, int y){
 	int[] a = new int[2];
 	if (maze[x+1][y] == ' '){
 	    a[0] = x; a[1] = y;
@@ -114,6 +130,10 @@ public class Maze{
 	    a[0] = x; a[1] = y;
 	    frontier.addLast(a);
 	}
+	if (frontier.size() > 0){
+	    return true;
+	}
+	return false;
     }
     
     /* public boolean solveBFS(boolean animate, int x, int y){
@@ -122,7 +142,6 @@ public class Maze{
        wait(5);
        }
        }
-
        /**Solve the maze using a frontier in a DFS manner. 
        * When animate is true, print the board at each step of the algorithm.
        * Replace spaces with x's as you traverse the maze. 
@@ -161,7 +180,7 @@ public class Maze{
 	return solveBFS(false);
     }
     public boolean solveDFS(){
-	return solveDFS(false);
+	return solveBFS(false);
     }
 
     // public void getNextMoves(spot){
@@ -184,7 +203,7 @@ public class Maze{
 	    f = new Maze(args[0]);
 	}
 	System.out.println(f.clear);
-	f.solveDFS(true);
+	f.solveBFS(true);
 	
     }
 
