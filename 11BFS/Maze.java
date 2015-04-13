@@ -109,25 +109,31 @@ public class Maze{
 	if (maze[x][y] == 'E'){
 	    return true;
 	}else{
-	    int[] b = frontier.removeFirst();
-	    findNextMove(b[0], b[1]);
+	    int[] f = frontier.removeFirst();
+	    int[] l = frontier.getLast();
+	    maze[x][y]=' ';
+	    if (findNextMove(x,y)){
+	        solveBFS(animate, f[0], f[1]);
+	    }else{
+		return false;
+	    }
 	}
-	return false;
+	return true;
     }
   
     public boolean findNextMove(int x, int y){
 	int[] a = new int[2];
 	if (maze[x+1][y] == ' '){
-	    a[0] = x; a[1] = y;
+	    a[0] = x+1; a[1] = y;
 	    frontier.addLast(a);
 	}else if (maze[x-1][y] == ' '){
-	    a[0] = x; a[1] = y;
+	    a[0] = x-1; a[1] = y;
 	    frontier.addLast(a);
 	}else if (maze[x][y+1] == ' '){
-	    a[0] = x; a[1] = y;
+	    a[0] = x; a[1] = y+1;
 	    frontier.addLast(a);
 	}else if (maze[x][y-1] == ' '){
-	    a[0] = x; a[1] = y;
+	    a[0] = x; a[1] = y-1;
 	    frontier.addLast(a);
 	}
 	if (frontier.size() > 0){
