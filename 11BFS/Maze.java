@@ -1,33 +1,3 @@
-import java.io.*;
-import java.util.*;
-
-public class Maze{
-    private static final String clear =  "\033[2J";
-    private static final String hide =  "\033[?25l";
-    private static final String show =  "\033[?25h";
-    private static final String invert =  "[37";
-    private String go(int x,int y){
-	return ("\033[" + x + ";" + y + "H");
-    }						
-    private static final int DFS = 1;
-    private static final int BFS = 0;
-    private char[][] maze;
-    private int maxx,maxy;
-    private int startx,starty;  
-    public void wait(int millis){
-	try {
-	    Thread.sleep(millis);
-	}
-	catch (InterruptedException e) {
-	}
-    }
-    MyDeque<int[]> frontier;
-    
-    /** Same constructor as before...*/
-    public Maze(String filename){   
-	frontier = new MyDeque<int[]>();
-	startx = -1;
-	starty = -1;
 	String ans = "";
 	try{
 	    Scanner in = new Scanner(new File(filename));
@@ -197,10 +167,49 @@ public class Maze{
      *Precondition :  solveBFS() OR solveDFS() has already been called (otherwise an empty array is returned)
      *Postcondition:  the correct solution is in the returned array
      */
-    public int[] solutionCoordinates(){ 
-	int[] a = {0,0};
-	return a;
+    public MyDeque<int[]> solutionCoordinates(){ 
+	moves = new MyDeque<int[]>();
+	int x = findEnd()[0];
+	int y = findEnd()[1];
+	moves.addFirst(findEnd());
+	while(x != startx && y != starty){
+	    int[] next = findPreviousMove(x,y);
+	    x = next[0];
+	    y = next[1];
+	    moves.addFirst(next);
+	}
+	return moves;
+	
     }  
+    public int[] findEnd(){
+	for (int r = 0; r < maxy; r++){
+	    for (int c = 0; c < maxx; c++){
+		if (maze[r][c] == 'E'){
+		    int[] e = {r,c};
+		    return e;
+		}
+	    }
+	}
+	return null;
+    }
+    public int[] findPreviousMove(int x, int y){
+	int[] a = new int[2];
+	if (maze[x+1][y] == 'X'){
+	    a[0] = x+1; a[1] = y;
+	    return a;
+	}else if (maze[x-1][y] == 'X'){
+	    a[0] = x-1; a[1] = y;
+	    return a;
+	}else if (maze[x][y+1] == 'X'){
+	    a[0] = x; a[1] = y+1;
+	    return a;
+	}else if (maze[x][y-1] == 'X'){
+	    a[0] = x; a[1] = y-1;
+	    return a;
+	}
+	return a;
+    }
+    
     public static void main(String[]args){
 	Maze f;
 	if(args.length < 1){
@@ -209,7 +218,7 @@ public class Maze{
 	    f = new Maze(args[0]);
 	}
 	System.out.println(f.clear);
-	f.solveBFS(true);
+	//	f.solveBFS(true);
 	
     }
 
