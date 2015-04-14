@@ -4,129 +4,170 @@ public class MyDeque<T> {
 
     private final int DEFAULT_SIZE = 10;
 
-    private T[] items_;
-    private int head_;
-    private int tail_;
-    private int size_;
+    private T[] items;
+    private int head;
+    private int tail;
+    private int size;
+    private int[] vals;
 
-    @SuppressWarnings("unchecked")
-	public MyDeque() {
-	items_ = (T[]) (new Object[DEFAULT_SIZE]);
-	head_ = 0;
-	tail_ = DEFAULT_SIZE - 1;
-	size_ = 0;
+
+    public MyDeque() {
+	items = (T[]) (new Object[DEFAULT_SIZE]);
+	vals = new int[DEFAULT_SIZE];
+	head = 0;
+	tail = DEFAULT_SIZE - 1;
+	size = 0;
     }
 
     private int normalize(int n) {
-	while (n < items_.length) {
-	    n += items_.length;
+	while (n < items.length) {
+	    n += items.length;
 	}
-	return n % items_.length;
+	return n % items.length;
     }
 
-    @SuppressWarnings("unchecked")
-	private void resize() {
-	int newSize = size_;
-	if (size_ == items_.length) {
-	    newSize = size_ * 2;
+    private void resize() {
+	int newSize = size;
+	if (size == items.length) {
+	    newSize = size * 2;
 	} else {
 	    return;
 	}
     
 	T[] newArray = (T[]) (new Object[newSize]);
+	int[] newVals = new int[newSize];
 	int copyCounter = 0;
-	if (head_ <= tail_) {
-	    for (int i = head_; i <= tail_; ++i) {
-		newArray[copyCounter] = items_[i];
+	if (head <= tail) {
+	    for (int i = head; i <= tail; ++i) {
+		newArray[copyCounter] = items[i];
+		newVals[copyCounter] = vals[i];
 		copyCounter++;
 	    }
 	} else {
-	    for (int i = head_; i < items_.length; ++i) {
-		newArray[copyCounter] = items_[i];
+	    for (int i = head; i < items.length; ++i) {
+		newArray[copyCounter] = items[i];
+		newVals[copyCounter] = vals[i];
 		copyCounter++;
 	    }
-	    for (int i = 0; i <= tail_; ++i) {
-		newArray[copyCounter] = items_[i];
+	    for (int i = 0; i <= tail; ++i) {
+		newArray[copyCounter] = items[i];
+		newVals[copyCounter] = vals[i];
 		copyCounter++;
 	    }
 	}
-	head_ = 0;
-	tail_ = size_ - 1;
-	items_ = newArray;
+	head = 0;
+	tail = size - 1;
+	items = newArray;
+	vals = newVals;
     }
 
     public boolean add(T item) {
 	addLast(item);
 	return true;
     }
+    public void add(T item, int priority){
+	resize();
+	addLast(item);
+	vals[tail] = priority;
+	size++;
+    }
 
     public void addFirst(T item) {
 	resize();
-	head_ = normalize(head_ - 1);
-	items_[head_] = item;
-	size_++;
+	head = normalize(head - 1);
+	items[head] = item;
+	size++;
     }
 
     public void addLast(T item) {
 	resize();
-	tail_ = normalize(tail_ + 1);
-	items_[tail_] = item;
-	size_++;
+	tail = normalize(tail + 1);
+	items[tail] = item;
+	size++;
     }
 
     public T getFirst() {
-	if (size_ == 0) {
+	if (size == 0) {
 	    throw new NoSuchElementException();
 	}
-	return items_[head_];
+	return items[head];
     }
 
     public T getLast() {
-	if (size_ == 0) {
+	if (size == 0) {
 	    throw new NoSuchElementException();
 	}
-	return items_[tail_];
+	return items[tail];
     }
 
     public T removeFirst() {
-	if (size_ == 0) {
+	if (size == 0) {
 	    throw new NoSuchElementException();
 	}
-	size_--;
-	int index = head_;
-	head_ = normalize(head_ + 1);
-	return items_[index];
+	size--;
+	int index = head;
+	head = normalize(head + 1);
+	return items[index];
     }
 
     public T removeLast() {
-	if (size_ == 0) {
+	if (size == 0) {
 	    throw new NoSuchElementException();
 	}
-	size_--;
-	int index = tail_;
-	tail_ = normalize(tail_ - 1);
-	return items_[index];
+	size--;
+	int index = tail;
+	tail = normalize(tail - 1);
+	return items[index];
+    }
+    
+    public T removeSmallest(){
+	int smallest = vals[head];
+	int smallIndex = head;
+	if (head <= tail){
+	    for (int i = head; i++; i <= tail){
+		if (vals[i] < smallest){
+		    smallIndex = i;
+		    smallest = vals[i];
+		}
+	    }
+	}else{
+	    for (int i = 0; i <= tail; i++){
+		if (vals[i] < smallest){
+		    smallIndex = i;
+		    smallest = vals[i];
+		}
+	    }
+	    for (int i = head; i < size; i++){
+		if (vals[i] < smallest){
+		    smallIndex = i;
+		    smallest = vals[i];
+		}
+	    }
+	}
+	
+
+	return items[smallIndex];
     }
 
     public int size() {
-	return size_;
+	return size;
     }
 
     public String toString() {
-	if (size_ == 0) {
+	if (size == 0) {
 	    return "[ ]";
 	}
 	String out = "[ ";
-	if (head_ <= tail_) {
-	    for (int i = head_; i <= tail_; ++i) {
-		out += items_[i] + " ";
+	if (head <= tail) {
+	    for (int i = head; i <= tail; ++i) {
+		out += items[i] + " ";
 	    }
 	} else {
-	    for (int i = head_; i < items_.length; ++i) {
-		out += items_[i] + " ";
+	    for (int i = head; i < items.length; ++i) {
+		out += items[i] + " ";
 	    }
-	    for (int i = 0; i <= tail_; ++i) {
-		out += items_[i] + " ";
+	    for (int i = 0; i <= tail; ++i) {
+		out += items[i] + " ";
 	    }
 	}
 	return out + "]";
