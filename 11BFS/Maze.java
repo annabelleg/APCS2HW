@@ -148,11 +148,11 @@ public class Maze{
 		System.out.println(frontierToString());
 		wait(100);
 	    }
-	    //get next point from beginning of frontier
+	    //get next point from beginning of frontier if BFS
 	    if (mode == BFS){
 	        next = frontier.removeFirst();
 	    }
-	    //get next point from end of frontier
+	    //get next point from end of frontier if DFS
 	    if (mode == DFS){
 	        next = frontier.removeLast();
 	    }
@@ -245,7 +245,7 @@ public class Maze{
 	    f = new Maze(args[0]);
 	}
 	System.out.println(f.clear);
-	f.solveBFS(true);
+	f.solveDFS(true);
 	//	System.out.println(f.solutionCoordinates());
 	
     }
