@@ -23,6 +23,23 @@ public class Maze{
     }
     MyDeque<int[]> frontier, moves;
     
+    public String frontierToString(){
+	if (frontier.size() == 0) {
+	    return "[ ]";
+	}
+	String out = "[ ";
+	for (int i = 0; i < frontier.size(); i++){
+	    out += "[";
+	    for (int x = 0; x < frontier.get(i).length; x++){
+		out += frontier.get(i)[x]+",";
+	    }
+	    out += "]";
+	}
+    
+	return out + "]";
+    }
+    
+    
     /** Same constructor as before...*/
     public Maze(String filename){   
 	frontier = new MyDeque<int[]>();
@@ -87,87 +104,18 @@ public class Maze{
      * When animate is true, print the board at each step of the algorithm.
      * Replace spaces with x's as you traverse the maze. 
      */
-    /* public boolean solveBFS(boolean animate){  
-	if (animate){ 
-	    System.out.println(this.toString(true));
-	    wait(5);
-	}
-	if(startx < 0){
-	    System.out.println("No starting point 'S' found in maze.");
-	    return false;
-	}else{
-	    maze[startx][starty]=' ';
-	    if (findNextMove(startx,starty)){
-		solveBFS(animate, startx, starty);
-	    }else{
-		return false;
-	    }
-	}
-	return true;
-	}*/
-    /*  public boolean solveBFS(boolean animate, int x, int y){
-	if (maze[x][y] == 'E'){
-	    return true;
-	}else{
-	    int[] f = frontier.removeFirst();
-	    int[] l = frontier.getLast();
-	    maze[x][y]=' ';
-	    if (findNextMove(x,y)){
-	        solveBFS(animate, f[0], f[1]);
-	    }else{
-		return false;
-	    }
-	}
-	return true;
-	}*/
-  
-  
-    
-    /* public boolean solveBFS(boolean animate, int x, int y){
-       if (animate){ 
-       System.out.println(this.toString(true));
-       wait(5);
-       }
-       }
-       /**Solve the maze using a frontier in a DFS manner. 
-       * When animate is true, print the board at each step of the algorithm.
-       * Replace spaces with x's as you traverse the maze. 
-       */
-    /*  public boolean solveDFS(boolean animate){   
-	if(startx < 0){
-	    System.out.println("No starting point 'S' found in maze.");
-	    return false;
-	}else{
-	    maze[startx][starty]=' ';
-	    return solveDFS(animate, startx,starty);
-	}
-    }
-    public boolean solveDFS(boolean animate, int x, int y){
-	if (animate){ 
-	    System.out.println(this.toString(true));
-	    wait(5);
-	}
-	if (maze[x][y]=='E'){
-	    return true;
-	}
-	if (maze[x][y]==' '){
-	    maze[x][y] = 'X';
-	    if (solveDFS(animate,x+1, y) ||
-		solveDFS(animate,x, y+1) ||	  
-		solveDFS(animate,x-1, y) ||
-		solveDFS(animate,x, y-1)){
-		return true;
-	    }
-	    maze[x][y] = '.';
-	}
-	return false;
-	}*/
     public boolean solveBFS(boolean animate){
 	return solve(animate, BFS);
     }
+
+    /**Solve the maze using a frontier in a DFS manner. 
+       * When animate is true, print the board at each step of the algorithm.
+       * Replace spaces with x's as you traverse the maze. 
+       */
     public boolean solveDFS(boolean animate){
 	return solve(animate, DFS);
     }
+    
     public boolean solveBFS(){
 	return solve(false, BFS);
     }
@@ -189,6 +137,8 @@ public class Maze{
 	while (!solved && frontier.size() > 0){
 	    if (animate && !solved){
 		System.out.println(toString(true));
+		System.out.println(frontierToString());
+		wait(100);
 	    }
 	    //get next point from beginning of frontier
 	    if (mode == BFS){
@@ -201,10 +151,10 @@ public class Maze{
 	    //check if its solved
 	    if (maze[next[0]][next[1]] == 'E'){
 		solved = true;
-		//ADD COORDINATES
+		// moves.add(next);
 	    }else{ //if its not solved
-		maze[next[0]][next[1]] = 'X';
-		for (int[] a : getNeighbors(next[0],next[1])){
+		maze[next[1]][next[0]] = 'X';
+		for (int[] a : getNeighbors(next[1],next[0])){
 		    frontier.addLast(a);
 		}
 	    }
@@ -213,7 +163,6 @@ public class Maze{
     }
     public ArrayList<int[]> getNeighbors(int x, int y){
 	ArrayList<int[]> blah = new ArrayList<int[]>();
-	//	int[] a = new int[2];
 	if (maze[x+1][y] == ' '){
 	    int[]a = {x+1, y};
 	    blah.add(a);
@@ -291,8 +240,8 @@ public class Maze{
 	    f = new Maze(args[0]);
 	}
 	System.out.println(f.clear);
-	f.solveDFS(true);
-	System.out.println(f.solutionCoordinates());
+	f.solveBFS(true);
+	//	System.out.println(f.solutionCoordinates());
 	
     }
 
