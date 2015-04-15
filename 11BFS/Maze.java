@@ -28,14 +28,32 @@ public class Maze{
 	    return "[ ]";
 	}
 	String out = "[ ";
-	for (int i = 0; i < frontier.size(); i++){
-	    out += "[";
-	    for (int x = 0; x < frontier.get(i).length; x++){
-		out += frontier.get(i)[x]+",";
+	int h = frontier.getHead();
+	int t = frontier.getTail();
+	if (h < t){
+	    for (int i = h; i < t; i++){
+		out += "[";
+		for (int x = 0; x < frontier.get(i).length; x++){
+		    out += frontier.get(i)[x]+",";
+		}
+		out += "]";
 	    }
-	    out += "]";
+	}else{
+	    for (int i = h; i < frontier.size(); i++){
+		out += "[";
+		for (int x = 0; x < frontier.get(i).length; x++){
+		    out += frontier.get(i)[x]+",";
+		}
+		out += "]";
+	    }
+	    for (int i = 0; i <= t; i++){
+		out += "[";
+		for (int x = 0; x < frontier.get(i).length; x++){
+		    out += frontier.get(i)[x]+",";
+		}
+		out += "]";
+	    }
 	}
-    
 	return out + "]";
     }
     
@@ -149,12 +167,12 @@ public class Maze{
 	        next = frontier.removeLast();
 	    }
 	    //check if its solved
-	    if (maze[next[0]][next[1]] == 'E'){
+	    if (maze[next[1]][next[0]] == 'E'){
 		solved = true;
 		// moves.add(next);
 	    }else{ //if its not solved
 		maze[next[1]][next[0]] = 'X';
-		for (int[] a : getNeighbors(next[1],next[0])){
+		for (int[] a : getNeighbors(next[0],next[1])){
 		    frontier.addLast(a);
 		}
 	    }
