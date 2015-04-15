@@ -124,7 +124,7 @@ public class MyDeque<T> {
 	int smallest = vals[head];
 	int smallIndex = head;
 	if (head <= tail){
-	    for (int i = head; i++; i <= tail){
+	    for (int i = head; i <= tail; i++){
 		if (vals[i] < smallest){
 		    smallIndex = i;
 		    smallest = vals[i];
