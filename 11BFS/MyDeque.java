@@ -3,7 +3,7 @@ import java.io.*;
 
 public class MyDeque<T> {
 
-    private final int DEFAULT_SIZE = 10;
+    private final int defaultsize = 10;
 
     private T[] items;
     private int head, tail;
@@ -12,10 +12,10 @@ public class MyDeque<T> {
 
 
     public MyDeque() {
-	items = (T[]) (new Object[DEFAULT_SIZE]);
-	vals = new int[DEFAULT_SIZE];
+	items = (T[]) (new Object[defaultsize]);
+	vals = new int[defaultsize];
 	head = 0;
-	tail = DEFAULT_SIZE - 1;
+	tail = defaultsize - 1;
 	size = 0;
     }
     public int getHead(){
@@ -193,22 +193,4 @@ public class MyDeque<T> {
 	return out + "]";
     }
 
-    public static void main(String[] args) {
-	MyDeque<Integer> q = new MyDeque<Integer>();
-	q.add(1);
-	System.out.println(q + " " + q.size());
-	q.add(2);
-	System.out.println(q);
-	q.addFirst(1);
-	System.out.println(q);
-	for (int i = 0; i < 10; ++i) {
-	    q.addFirst(i);
-	    System.out.println(q);
-	}
-	System.out.println(q.removeFirst() + " " + q);
-	System.out.println(q.removeFirst() + " " + q);
-	System.out.println(q.removeLast() + " " + q);
-	System.out.println(q.getFirst() + " " + q);
-	System.out.println(q.getLast() + " " + q);
-    }
 }
