@@ -87,7 +87,7 @@ public class Maze{
      * When animate is true, print the board at each step of the algorithm.
      * Replace spaces with x's as you traverse the maze. 
      */
-    public boolean solveBFS(boolean animate){  
+    /* public boolean solveBFS(boolean animate){  
 	if (animate){ 
 	    System.out.println(this.toString(true));
 	    wait(5);
@@ -104,8 +104,8 @@ public class Maze{
 	    }
 	}
 	return true;
-    }
-    public boolean solveBFS(boolean animate, int x, int y){
+	}*/
+    /*  public boolean solveBFS(boolean animate, int x, int y){
 	if (maze[x][y] == 'E'){
 	    return true;
 	}else{
@@ -119,7 +119,7 @@ public class Maze{
 	    }
 	}
 	return true;
-    }
+	}*/
   
   
     
@@ -133,7 +133,7 @@ public class Maze{
        * When animate is true, print the board at each step of the algorithm.
        * Replace spaces with x's as you traverse the maze. 
        */
-    public boolean solveDFS(boolean animate){   
+    /*  public boolean solveDFS(boolean animate){   
 	if(startx < 0){
 	    System.out.println("No starting point 'S' found in maze.");
 	    return false;
@@ -161,67 +161,73 @@ public class Maze{
 	    maze[x][y] = '.';
 	}
 	return false;
+	}*/
+    public boolean solveBFS(boolean animate){
+	return solve(animate, BFS);
     }
-
+    public boolean solveDFS(boolean animate){
+	return solve(animate, DFS);
+    }
     public boolean solveBFS(){
-	return solve(false, 0);
+	return solve(false, BFS);
     }
     public boolean solveDFS(){
-	return solve(false, 1);
+	return solve(false, DFS);
     }
     public boolean solve(boolean animate, int mode){
+	//check that start is valid
 	if(startx < 0){
 	    System.out.println("No starting point 'S' found in maze.");
 	    return false;
 	}
-	frontier.add({startx,starty});
-	//	for (int[] a : getNeighbors(startx, starty)){
-	//	    frontier.add(a);
-	//	}
+	//get starting point
+	int[] z = {startx, starty};
+	frontier.add(z);
+
 	boolean solved = false;
 	int[] next = new int[2];
 	while (!solved && frontier.size() > 0){
-	    if(animate && !solved){
+	    if (animate && !solved){
 		System.out.println(toString(true));
 	    }
+	    //get next point from beginning of frontier
 	    if (mode == BFS){
 	        next = frontier.removeFirst();
 	    }
+	    //get next point from end of frontier
 	    if (mode == DFS){
 	        next = frontier.removeLast();
 	    }
+	    //check if its solved
 	    if (maze[next[0]][next[1]] == 'E'){
 		solved = true;
 		//ADD COORDINATES
-	    }else{
+	    }else{ //if its not solved
 		maze[next[0]][next[1]] = 'X';
-		for (int[] a; getNeighbors(next[0],next[1])){
+		for (int[] a : getNeighbors(next[0],next[1])){
 		    frontier.addLast(a);
 		}
 	    }
 	}
 	return solved;
     }
-    public boolean getNeighbors(int x, int y){
+    public ArrayList<int[]> getNeighbors(int x, int y){
 	ArrayList<int[]> blah = new ArrayList<int[]>();
+	//	int[] a = new int[2];
 	if (maze[x+1][y] == ' '){
-	    blah.add({x+1, y});
-	    //a[0] = x+1; a[1] = y;
-	    //    frontier.addLast(a);
+	    int[]a = {x+1, y};
+	    blah.add(a);
 	}else if (maze[x-1][y] == ' '){
-	    a[0] = x-1; a[1] = y;
-	    frontier.addLast(a);
+	    int[]a = {x-1, y};
+	    blah.add(a);
 	}else if (maze[x][y+1] == ' '){
-	    a[0] = x; a[1] = y+1;
-	    frontier.addLast(a);
+	    int[]a = {x, y+1};
+	    blah.add(a);
 	}else if (maze[x][y-1] == ' '){
-	    a[0] = x; a[1] = y-1;
-	    frontier.addLast(a);
+	    int[]a = {x, y-1};
+	    blah.add(a);
 	}
-	if (frontier.size() > 0){
-	    return true;
-	}
-	return false;
+	return blah;
     }
 	
     // public void getNextMoves(spot){
