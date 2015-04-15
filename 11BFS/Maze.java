@@ -121,26 +121,7 @@ public class Maze{
 	return true;
     }
   
-    public boolean findNextMove(int x, int y){
-	int[] a = new int[2];
-	if (maze[x+1][y] == ' '){
-	    a[0] = x+1; a[1] = y;
-	    frontier.addLast(a);
-	}else if (maze[x-1][y] == ' '){
-	    a[0] = x-1; a[1] = y;
-	    frontier.addLast(a);
-	}else if (maze[x][y+1] == ' '){
-	    a[0] = x; a[1] = y+1;
-	    frontier.addLast(a);
-	}else if (maze[x][y-1] == ' '){
-	    a[0] = x; a[1] = y-1;
-	    frontier.addLast(a);
-	}
-	if (frontier.size() > 0){
-	    return true;
-	}
-	return false;
-    }
+  
     
     /* public boolean solveBFS(boolean animate, int x, int y){
        if (animate){ 
@@ -183,12 +164,66 @@ public class Maze{
     }
 
     public boolean solveBFS(){
-	return solveBFS(false);
+	return solve(false, 0);
     }
     public boolean solveDFS(){
-	return solveBFS(false);
+	return solve(false, 1);
     }
-
+    public boolean solve(boolean animate, int mode){
+	if(startx < 0){
+	    System.out.println("No starting point 'S' found in maze.");
+	    return false;
+	}
+	frontier.add({startx,starty});
+	//	for (int[] a : getNeighbors(startx, starty)){
+	//	    frontier.add(a);
+	//	}
+	boolean solved = false;
+	int[] next = new int[2];
+	while (!solved && frontier.size() > 0){
+	    if(animate && !solved){
+		System.out.println(toString(true));
+	    }
+	    if (mode == BFS){
+	        next = frontier.removeFirst();
+	    }
+	    if (mode == DFS){
+	        next = frontier.removeLast();
+	    }
+	    if (maze[next[0]][next[1]] == 'E'){
+		solved = true;
+		//ADD COORDINATES
+	    }else{
+		maze[next[0]][next[1]] = 'X';
+		for (int[] a; getNeighbors(next[0],next[1])){
+		    frontier.addLast(a);
+		}
+	    }
+	}
+	return solved;
+    }
+    public boolean getNeighbors(int x, int y){
+	ArrayList<int[]> blah = new ArrayList<int[]>();
+	if (maze[x+1][y] == ' '){
+	    blah.add({x+1, y});
+	    //a[0] = x+1; a[1] = y;
+	    //    frontier.addLast(a);
+	}else if (maze[x-1][y] == ' '){
+	    a[0] = x-1; a[1] = y;
+	    frontier.addLast(a);
+	}else if (maze[x][y+1] == ' '){
+	    a[0] = x; a[1] = y+1;
+	    frontier.addLast(a);
+	}else if (maze[x][y-1] == ' '){
+	    a[0] = x; a[1] = y-1;
+	    frontier.addLast(a);
+	}
+	if (frontier.size() > 0){
+	    return true;
+	}
+	return false;
+    }
+	
     // public void getNextMoves(spot){
     //given a spot, find all possible spots and add them to the frontier
     // }
