@@ -23,39 +23,6 @@ public class Maze{
     }
     MyDeque<int[]> frontier, moves;
     
-    public String frontierToString(){
-	if (frontier.size() == 0) {
-	    return "[ ]";
-	}
-	String out = "[ ";
-	int h = frontier.getHead();
-	int t = frontier.getTail();
-	if (h < t){
-	    for (int i = h; i < t; i++){
-		out += "[";
-		for (int x = 0; x < frontier.get(i).length; x++){
-		    out += frontier.get(i)[x]+",";
-		}
-		out += "]";
-	    }
-	}else{
-	    for (int i = h; i < frontier.size(); i++){
-		out += "[";
-		for (int x = 0; x < frontier.get(i).length; x++){
-		    out += frontier.get(i)[x]+",";
-		}
-		out += "]";
-	    }
-	    for (int i = 0; i <= t; i++){
-		out += "[";
-		for (int x = 0; x < frontier.get(i).length; x++){
-		    out += frontier.get(i)[x]+",";
-		}
-		out += "]";
-	    }
-	}
-	return out + "]";
-    }
     
     
     /** Same constructor as before...*/
@@ -97,6 +64,7 @@ public class Maze{
 	int[]a = {startx, starty};
 	frontier.add(a);
     }
+
     public String toString(){//do not do the funky character codes
 	String ans = ""+maxx+","+maxy+"\n";
 	for(int i=0;i<maxx*maxy;i++){
@@ -116,6 +84,28 @@ public class Maze{
 	    ans += maze[i%maxx][i/maxx];
 	}
 	return hide+invert+go(0,0)+ans+"\n"+show;	
+    }
+    
+    public String frontierToString(){
+	if (frontier.size() == 0) {
+	    return "[ ]";
+	}
+	String out = "[ ";
+	int h = frontier.getHead();
+	int t = frontier.getTail();
+	if (h < t){
+	    for (int i = h; i < t; i++){
+		out += "[" + frontier.get(i)[0]+", " + frontier.get(i)[1] +"]";
+	    }
+	}else{
+	    for (int i = h; i < frontier.size(); i++){
+		out += "[" + frontier.get(i)[0]+", " + frontier.get(i)[1] +"]";
+	    }
+	    for (int i = 0; i <= t; i++){
+		out += "[" + frontier.get(i)[0]+", " + frontier.get(i)[1] +"]";
+	    }
+	}
+	return out + "]";
     }
 
     /**Solve the maze using a frontier in a BFS manner. 
@@ -197,9 +187,6 @@ public class Maze{
 	return blah;
     }
 	
-    // public void getNextMoves(spot){
-    //given a spot, find all possible spots and add them to the frontier
-    // }
     /**return an array [x1,y1,x2,y2,x3,y3...]
      *that contains the coordinates of the solution from start to end.
      *Precondition :  solveBFS() OR solveDFS() has already been called (otherwise an empty array is returned)
