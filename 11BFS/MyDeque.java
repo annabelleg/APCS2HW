@@ -1,12 +1,12 @@
 import java.util.*;
+import java.io.*;
 
 public class MyDeque<T> {
 
     private final int DEFAULT_SIZE = 10;
 
     private T[] items;
-    private int head;
-    private int tail;
+    private int head, tail;
     private int size;
     private int[] vals;
 
@@ -17,6 +17,12 @@ public class MyDeque<T> {
 	head = 0;
 	tail = DEFAULT_SIZE - 1;
 	size = 0;
+    }
+    public int getHead(){
+	return head;
+    }
+    public int getTail(){
+	return tail;
     }
 
     private int normalize(int n) {
@@ -85,7 +91,21 @@ public class MyDeque<T> {
 	items[tail] = item;
 	size++;
     }
-
+    public T get(int index){
+	if (head < tail){
+	    if (index < head || index > tail){
+		throw new ArrayIndexOutOfBoundsException();
+	    }
+	}else{
+	    if (index > tail && index < head){
+		throw new ArrayIndexOutOfBoundsException();
+	    }
+	}
+	if (size == 0){
+	    throw new NoSuchElementException();
+	}
+	return items[index];
+    }
     public T getFirst() {
 	if (size == 0) {
 	    throw new NoSuchElementException();
