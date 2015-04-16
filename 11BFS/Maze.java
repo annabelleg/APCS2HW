@@ -99,10 +99,10 @@ public class Maze{
 	    }
 	}else{
 	    for (int i = h; i < frontier.size(); i++){
-		out += "[" + frontier.get(i)[0]+", " + frontier.get(i)[1] +"]";
+		out += "[" + frontier.get(i)[0]+", " + frontier.get(i)[1] +"] , ";
 	    }
 	    for (int i = 0; i <= t; i++){
-		out += "[" + frontier.get(i)[0]+", " + frontier.get(i)[1] +"]";
+		out += "[" + frontier.get(i)[0]+", " + frontier.get(i)[1] +"] , ";
 	    }
 	}
 	return out + "]";
@@ -146,19 +146,22 @@ public class Maze{
 	    if (animate && !solved){
 		System.out.println(toString(true));
 		System.out.println(frontierToString());
-		wait(100);
+		wait(50);
 	    }
 	    //get next point from beginning of frontier if BFS
 	    if (mode == BFS){
+		maze[next[1]][next[0]] = '.';
 	        next = frontier.removeFirst();
 	    }
 	    //get next point from end of frontier if DFS
 	    if (mode == DFS){
+		maze[next[1]][next[0]] = '.';
 	        next = frontier.removeLast();
 	    }
 	    //check if its solved
 	    if (maze[next[1]][next[0]] == 'E'){
 		solved = true;
+		break;
 		// moves.add(next);
 	    }else{ //if its not solved
 		maze[next[1]][next[0]] = 'X';
@@ -171,16 +174,16 @@ public class Maze{
     }
     public ArrayList<int[]> getNeighbors(int x, int y){
 	ArrayList<int[]> blah = new ArrayList<int[]>();
-	if (maze[x+1][y] == ' '){
+	if (maze[y][x+1] == ' '){
 	    int[]a = {x+1, y};
 	    blah.add(a);
-	}else if (maze[x-1][y] == ' '){
+	} if (maze[y][x-1] == ' '){
 	    int[]a = {x-1, y};
 	    blah.add(a);
-	}else if (maze[x][y+1] == ' '){
+	} if (maze[y+1][x] == ' '){
 	    int[]a = {x, y+1};
 	    blah.add(a);
-	}else if (maze[x][y-1] == ' '){
+	} if (maze[y-1][x] == ' '){
 	    int[]a = {x, y-1};
 	    blah.add(a);
 	}
@@ -245,7 +248,7 @@ public class Maze{
 	    f = new Maze(args[0]);
 	}
 	System.out.println(f.clear);
-	f.solveDFS(true);
+	f.solveBFS(true);
 	//	System.out.println(f.solutionCoordinates());
 	
     }
