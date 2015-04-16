@@ -8,9 +8,11 @@ public class Maze{
     private static final String invert =  "[37";
     private String go(int x,int y){
 	return ("\033[" + x + ";" + y + "H");
-    }						
+    }
+    private static final int BFS = 0;						
     private static final int DFS = 1;
-    private static final int BFS = 0;
+    private static final int BEST = 2;
+    private static final int ASTAR = 3;
     private char[][] maze;
     private int maxx,maxy;
     private int startx,starty;  
@@ -123,6 +125,20 @@ public class Maze{
     public boolean solveDFS(boolean animate){
 	return solve(animate, DFS);
     }
+    /**Solve the maze using a frontier in a Best-First manner. 
+       * When animate is true, print the board at each step of the algorithm.
+       * Replace spaces with x's as you traverse the maze. 
+       */
+    public boolean solveBest(boolean animate){
+	return true;
+    }
+    /**Solve the maze using a frontier in an A* manner. 
+       * When animate is true, print the board at each step of the algorithm.
+       * Replace spaces with x's as you traverse the maze. 
+       */
+    public boolean solveAStar(boolean animate){
+	return true;
+    }
     
     public boolean solveBFS(){
 	return solve(false, BFS);
@@ -130,16 +146,20 @@ public class Maze{
     public boolean solveDFS(){
 	return solve(false, DFS);
     }
+   public boolean solveBest(){
+	return solve(false, BEST);
+    }
+    public boolean solveAStar(){
+	return solve(false, ASTAR);
+    }
+    
     public boolean solve(boolean animate, int mode){
 	//check that start is valid
 	if(startx < 0){
 	    System.out.println("No starting point 'S' found in maze.");
 	    return false;
 	}
-	//get starting point
-	int[] z = {startx, starty};
-	frontier.add(z);
-
+	//starting point was added in the constructor
 	boolean solved = false;
 	int[] next = new int[2];
 	while (!solved && frontier.size() > 0){
@@ -175,15 +195,19 @@ public class Maze{
     public ArrayList<int[]> getNeighbors(int x, int y){
 	ArrayList<int[]> blah = new ArrayList<int[]>();
 	if (maze[y][x+1] == ' '){
+	    maze[y][x+1] = 'X';
 	    int[]a = {x+1, y};
 	    blah.add(a);
 	} if (maze[y][x-1] == ' '){
+	    maze[y][x-1] = 'X';
 	    int[]a = {x-1, y};
 	    blah.add(a);
 	} if (maze[y+1][x] == ' '){
+	    maze[y+1][x] = 'X';
 	    int[]a = {x, y+1};
 	    blah.add(a);
 	} if (maze[y-1][x] == ' '){
+	    maze[y-1][x] = 'X';
 	    int[]a = {x, y-1};
 	    blah.add(a);
 	}
