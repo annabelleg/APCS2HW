@@ -68,14 +68,7 @@ public class Maze{
     }
 
     public String toString(){//do not do the funky character codes
-	String ans = ""+maxx+","+maxy+"\n";
-	for(int i=0;i<maxx*maxy;i++){
-	    if(i%maxx ==0 && i!=0){
-		ans+="\n";
-	    }
-	    ans += maze[i%maxx][i/maxx];
-	}
-	return ans;
+        return toString(false);
     }
     public String toString(boolean animate) {//do the funky character codes when animate is true
 	String ans = ""+maxx+","+maxy+"\n";
@@ -85,7 +78,9 @@ public class Maze{
 	    }
 	    ans += maze[i%maxx][i/maxx];
 	}
-	return clear+invert+go(0,0)+ans+"\n"+show;	
+	if (animate)
+	    return hide+invert+go(0,0)+ans+"\n"+show;
+	return ans;
     }
     
     public String frontierToString(){
@@ -107,7 +102,7 @@ public class Maze{
 		out += "[" + frontier.get(i)[0]+", " + frontier.get(i)[1] +"] , ";
 	    }
 	}
-	return hide+out+"]"+show;
+	return hide+out+"]\n"+show;
     }
 
     /**Solve the maze using a frontier in a BFS manner. 
@@ -164,7 +159,6 @@ public class Maze{
 	int[] next = new int[2];
 	while (!solved && frontier.size() > 0){
 	    if (animate && !solved){
-		
 		System.out.println(clear + toString(true));
 		System.out.println(frontierToString());
 		wait(50);
@@ -173,6 +167,7 @@ public class Maze{
 	    //mark the points you've been with a '.'
 	    maze[next[1]][next[0]] = '.';
 	    maze[starty][startx] = 'S';
+	    maze[0][0] = '#';
 
 	    //get next point from beginning of frontier if BFS
 	    if (mode == BFS){
@@ -196,6 +191,12 @@ public class Maze{
 		    frontier.addLast(a);
 		}
 	    }
+	}
+	if (! solved){
+	    System.out.println("Sorry, we could not find a solution!");
+	}
+	if (!animate){
+	    System.out.println(toString(true));
 	}
 	return solved;
     }
@@ -232,16 +233,17 @@ public class Maze{
 	    maze[y][x-1] = 'X';
 	    int[]a = {x-1, y};
 	    blah.add(a);
-	} if (maze[y+1][x] == ' '){
+	} 
+	if (maze[y+1][x] == ' '){
 	    maze[y+1][x] = 'X';
 	    int[]a = {x, y+1};
 	    blah.add(a);
-	} if (maze[y-1][x] == ' '){
+	}
+	if (maze[y-1][x] == ' '){
 	    maze[y-1][x] = 'X';
 	    int[]a = {x, y-1};
 	    blah.add(a);
 	}
-
 	return blah;
     }
 	
