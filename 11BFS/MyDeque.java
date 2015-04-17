@@ -171,6 +171,7 @@ public class Maze{
 
 	    //mark the points you've been with a '.'
 	    maze[next[1]][next[0]] = '.';
+	    maze[starty][startx] = 'S';
 
 	    //get next point from beginning of frontier if BFS
 	    if (mode == BFS){
@@ -200,7 +201,7 @@ public class Maze{
     public ArrayList<int[]> getNeighbors(int x, int y){
 	ArrayList<int[]> blah = new ArrayList<int[]>();
 	//first check if any of the neighbors are the End: if yes, return only that spot
-	if (maze[y][x+1] == 'E'){ 
+	if (maze[y][x+1] == 'E'){
 	    int[]a = {x+1, y};
 	    blah.add(a);
 	    return blah;
@@ -301,7 +302,7 @@ public class Maze{
 	    f = new Maze(args[0]);
 	}
 	System.out.println(f.clear);
-	f.solveBFS(true);
+	f.solveDFS(true);
 	//	System.out.println(f.solutionCoordinates());
 	
     }
