@@ -68,14 +68,7 @@ public class Maze{
     }
 
     public String toString(){//do not do the funky character codes
-	String ans = ""+maxx+","+maxy+"\n";
-	for(int i=0;i<maxx*maxy;i++){
-	    if(i%maxx ==0 && i!=0){
-		ans+="\n";
-	    }
-	    ans += maze[i%maxx][i/maxx];
-	}
-	return ans;
+        return toString(false);
     }
     public String toString(boolean animate) {//do the funky character codes when animate is true
 	String ans = ""+maxx+","+maxy+"\n";
@@ -85,7 +78,9 @@ public class Maze{
 	    }
 	    ans += maze[i%maxx][i/maxx];
 	}
-	return hide+invert+go(0,0)+ans+"\n"+show;	
+	if (animate)
+	    return hide+invert+go(0,0)+ans+"\n"+show;
+	return ans;
     }
     
     public String frontierToString(){
@@ -107,7 +102,7 @@ public class Maze{
 		out += "[" + frontier.get(i)[0]+", " + frontier.get(i)[1] +"] , ";
 	    }
 	}
-	return out + "]";
+	return hide+out+"]\n"+show;
     }
 
     /**Solve the maze using a frontier in a BFS manner. 
@@ -119,23 +114,23 @@ public class Maze{
     }
 
     /**Solve the maze using a frontier in a DFS manner. 
-       * When animate is true, print the board at each step of the algorithm.
-       * Replace spaces with x's as you traverse the maze. 
-       */
+     * When animate is true, print the board at each step of the algorithm.
+     * Replace spaces with x's as you traverse the maze. 
+     */
     public boolean solveDFS(boolean animate){
 	return solve(animate, DFS);
     }
     /**Solve the maze using a frontier in a Best-First manner. 
-       * When animate is true, print the board at each step of the algorithm.
-       * Replace spaces with x's as you traverse the maze. 
-       */
+     * When animate is true, print the board at each step of the algorithm.
+     * Replace spaces with x's as you traverse the maze. 
+     */
     public boolean solveBest(boolean animate){
 	return true;
     }
     /**Solve the maze using a frontier in an A* manner. 
-       * When animate is true, print the board at each step of the algorithm.
-       * Replace spaces with x's as you traverse the maze. 
-       */
+     * When animate is true, print the board at each step of the algorithm.
+     * Replace spaces with x's as you traverse the maze. 
+     */
     public boolean solveAStar(boolean animate){
 	return true;
     }
@@ -146,7 +141,7 @@ public class Maze{
     public boolean solveDFS(){
 	return solve(false, DFS);
     }
-   public boolean solveBest(){
+    public boolean solveBest(){
 	return solve(false, BEST);
     }
     public boolean solveAStar(){
@@ -164,49 +159,88 @@ public class Maze{
 	int[] next = new int[2];
 	while (!solved && frontier.size() > 0){
 	    if (animate && !solved){
-		System.out.println(toString(true));
+		System.out.println(clear + toString(true));
 		System.out.println(frontierToString());
 		wait(50);
 	    }
+
+	    //mark the points you've been with a '.'
+	    maze[next[1]][next[0]] = '.';
+	    maze[starty][startx] = 'S';
+	    maze[0][0] = '#';
+
 	    //get next point from beginning of frontier if BFS
 	    if (mode == BFS){
-		maze[next[1]][next[0]] = '.';
 	        next = frontier.removeFirst();
 	    }
 	    //get next point from end of frontier if DFS
 	    if (mode == DFS){
-		maze[next[1]][next[0]] = '.';
 	        next = frontier.removeLast();
+	    }
+	    if (mode == BEST){
+		next = frontier.removeSmallest();
 	    }
 	    //check if its solved
 	    if (maze[next[1]][next[0]] == 'E'){
 		solved = true;
-		break;
+		return solved;
 		// moves.add(next);
 	    }else{ //if its not solved
-		maze[next[1]][next[0]] = 'X';
+		maze[next[1]][next[0]] = '.';
 		for (int[] a : getNeighbors(next[0],next[1])){
 		    frontier.addLast(a);
 		}
 	    }
 	}
+	/*	if (!animate){
+	    System.out.println(toString(true));
+	    }*/
+	if (!solved){
+	    System.out.println("Sorry, we could not find a solution!");
+	}
+	
 	return solved;
     }
     public ArrayList<int[]> getNeighbors(int x, int y){
 	ArrayList<int[]> blah = new ArrayList<int[]>();
+	//first check if any of the neighbors are the End: if yes, return only that spot
+	if (maze[y][x+1] == 'E'){
+	    int[]a = {x+1, y};
+	    blah.add(a);
+	    return blah;
+	}
+	if (maze[y][x-1] == 'E'){ 
+	    int[]a = {x-1, y};
+	    blah.add(a);
+	    return blah;
+	}
+	if (maze[y+1][x] == 'E'){ 
+	    int[]a = {x, y+1};
+	    blah.add(a);
+	    return blah;
+	}
+	if (maze[y-1][x] == 'E'){ 
+	    int[]a = {x, y-1};
+	    blah.add(a);
+	    return blah;
+	}
+	//if no neighbor is the end, then get the blank spots around the given spot
 	if (maze[y][x+1] == ' '){
 	    maze[y][x+1] = 'X';
 	    int[]a = {x+1, y};
 	    blah.add(a);
-	} if (maze[y][x-1] == ' '){
+	}
+	if (maze[y][x-1] == ' '){
 	    maze[y][x-1] = 'X';
 	    int[]a = {x-1, y};
 	    blah.add(a);
-	} if (maze[y+1][x] == ' '){
+	} 
+	if (maze[y+1][x] == ' '){
 	    maze[y+1][x] = 'X';
 	    int[]a = {x, y+1};
 	    blah.add(a);
-	} if (maze[y-1][x] == ' '){
+	}
+	if (maze[y-1][x] == ' '){
 	    maze[y-1][x] = 'X';
 	    int[]a = {x, y-1};
 	    blah.add(a);
@@ -272,7 +306,8 @@ public class Maze{
 	    f = new Maze(args[0]);
 	}
 	System.out.println(f.clear);
-	f.solveBFS(true);
+	f.solveDFS(true);
+	//	System.out.println(f.toString(true));
 	//	System.out.println(f.solutionCoordinates());
 	
     }
