@@ -85,7 +85,7 @@ public class Maze{
 	    }
 	    ans += maze[i%maxx][i/maxx];
 	}
-	return hide+invert+go(0,0)+ans+"\n"+show;	
+	return clear+invert+go(0,0)+ans+"\n"+show;	
     }
     
     public String frontierToString(){
@@ -164,7 +164,8 @@ public class Maze{
 	int[] next = new int[2];
 	while (!solved && frontier.size() > 0){
 	    if (animate && !solved){
-		System.out.println(toString(true));
+		
+		System.out.println(clear + toString(true));
 		System.out.println(frontierToString());
 		wait(50);
 	    }
@@ -302,7 +303,7 @@ public class Maze{
 	    f = new Maze(args[0]);
 	}
 	System.out.println(f.clear);
-	f.solveDFS(true);
+	f.solveBFS(true);
 	//	System.out.println(f.solutionCoordinates());
 	
     }
