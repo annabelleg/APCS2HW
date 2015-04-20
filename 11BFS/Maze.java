@@ -17,6 +17,7 @@ public class Maze{
     private int maxx,maxy;
     private int startx,starty;
     private int endx,endy;
+    private int numCurrentMoves;
     public void wait(int millis){
 	try {
 	    Thread.sleep(millis);
@@ -182,7 +183,7 @@ public class Maze{
 	    if (mode == DFS){
 	        next = frontier.removeLast();
 	    }
-	    if (mode == BEST){
+	    if (mode == BEST || mode == ASTAR){
 		next = frontier.removeSmallest();
 	    }
 	    //check if its solved
@@ -194,10 +195,12 @@ public class Maze{
 		maze[next[1]][next[0]] = '.';
 		for (int[] a : getNeighbors(next[0],next[1])){
 		    if (mode == BEST) {frontier.add(a, findDistToEnd(a));}
-		    if (mode == ASTAR) {frontier.add(a, findAStarVal(a));}
+		    else if (mode == ASTAR) {frontier.add(a, findAStarVal(a));}
 		    else {frontier.add(a);}
 		}
+		
 	    }
+	    numCurrentMoves++;
 	}
 	/*	if (!animate){
 	    System.out.println(toString(true));
@@ -260,7 +263,7 @@ public class Maze{
     }
 
     public int findAStarVal(int[] point){ // for ASTAR
-	return Math.abs(Math.abs(startx - point[1]) - Math.abs(point[1] - endx)) + Math.abs(Math.abs(starty - point[0]) - Math.abs(point[0] - endx));
+	return Math.abs(findDistToEnd(point) - numCurrentMoves);
     }
 
 
@@ -323,7 +326,7 @@ public class Maze{
 	    f = new Maze(args[0]);
 	}
 	System.out.println(f.clear);
-	f.solveBest(true);
+	f.solveAStar(true);
 	//	System.out.println(f.toString(true));
 	//	System.out.println(f.solutionCoordinates());
 	
