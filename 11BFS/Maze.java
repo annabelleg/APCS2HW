@@ -275,48 +275,9 @@ public class Maze{
      *Postcondition:  the correct solution is in the returned array
      */
      
-    //instead of doing what i do here, start from startx and starty an go through
     public MyDeque<int[]> solutionCoordinates(){ 
 	moves = new MyDeque<int[]>();
-	int x = findEnd()[0];
-	int y = findEnd()[1];
-	moves.addFirst(findEnd());
-	while(x != startx && y != starty){
-	    int[] next = findPreviousMove(x,y);
-	    x = next[0];
-	    y = next[1];
-	    moves.addFirst(next);
-	}
 	return moves;
-	
-    }  
-    public int[] findEnd(){
-	for (int r = 0; r < maxy; r++){
-	    for (int c = 0; c < maxx; c++){
-		if (maze[c][r] == 'E'){
-		    int[] e = {r,c};
-		    return e;
-		}
-	    }
-	}
-	return null;
-    }
-    public int[] findPreviousMove(int x, int y){
-	int[] a = new int[2];
-	if (maze[x+1][y] == 'X'){
-	    a[0] = x+1; a[1] = y;
-	    return a;
-	}else if (maze[x-1][y] == 'X'){
-	    a[0] = x-1; a[1] = y;
-	    return a;
-	}else if (maze[x][y+1] == 'X'){
-	    a[0] = x; a[1] = y+1;
-	    return a;
-	}else if (maze[x][y-1] == 'X'){
-	    a[0] = x; a[1] = y-1;
-	    return a;
-	}
-	return a;
     }
     
     public static void main(String[]args){
@@ -327,7 +288,7 @@ public class Maze{
 	    f = new Maze(args[0]);
 	}
 	System.out.println(f.clear);
-	f.solveBest(true);
+	f.solveAStar(true);
 	//	System.out.println(f.toString(true));
 	//	System.out.println(f.solutionCoordinates());
 	
