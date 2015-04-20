@@ -60,24 +60,28 @@ public class Maze{
 	for(int i=0;i<ans.length();i++){
 	    char c = ans.charAt(i);
 	    maze[i%maxx][i/maxx]= c;
-	    if(c=='S'){
-		startx = i%maxx;
-		starty = i/maxx;
-	    }
-	    if(c=='E'){
-		endx = i%maxx;
-		endy = i/maxx;
+	}
+	for (int r = 0; r < maxy; r++){
+	    for (int c = 0; c < maxx; c++){
+		if (maze[c][r]=='S'){
+		    startx = r;
+		    starty = c;
+		}if(maze[c][r]=='E'){
+		    endx = r;
+		    endy = c;
+		}
 	    }
 	}
 	int[]a = {startx, starty};
 	frontier.add(a);
+	System.out.println(a);
     }
 
     public String toString(){//do not do the funky character codes
         return toString(false);
     }
     public String toString(boolean animate) {//do the funky character codes when animate is true
-	String ans = ""+maxx+","+maxy+"\n";
+	String ans = "";
 	for(int i=0;i<maxx*maxy;i++){
 	    if(i%maxx ==0 && i!=0){
 		ans+="\n";
@@ -101,7 +105,7 @@ public class Maze{
 		out += "[" + frontier.get(i)[0]+", " + frontier.get(i)[1] +"]";
 	    }
 	}else{
-	    for (int i = h; i < frontier.size(); i++){
+	    for (int i = h; i <= frontier.size()-1; i++){
 		out += "[" + frontier.get(i)[0]+", " + frontier.get(i)[1] +"] , ";
 	    }
 	    for (int i = 0; i <= t; i++){
@@ -166,7 +170,7 @@ public class Maze{
 	while (!solved && frontier.size() > 0){
 	    if (animate && !solved){
 		System.out.println(clear + toString(true));
-		System.out.println(frontierToString());
+		//	System.out.println(frontierToString());
 		wait(50);
 	    }
 
@@ -202,9 +206,6 @@ public class Maze{
 	    }
 	    numCurrentMoves++;
 	}
-	/*	if (!animate){
-	    System.out.println(toString(true));
-	    }*/
 	if (!solved){
 	    System.out.println("Sorry, we could not find a solution!");
 	}
@@ -263,7 +264,7 @@ public class Maze{
     }
 
     public int findAStarVal(int[] point){ // for ASTAR
-	return Math.abs(findDistToEnd(point) - numCurrentMoves);
+	return Math.abs(findDistToEnd(point) + numCurrentMoves);
     }
 
 
@@ -326,7 +327,7 @@ public class Maze{
 	    f = new Maze(args[0]);
 	}
 	System.out.println(f.clear);
-	f.solveAStar(true);
+	f.solveBest(true);
 	//	System.out.println(f.toString(true));
 	//	System.out.println(f.solutionCoordinates());
 	
