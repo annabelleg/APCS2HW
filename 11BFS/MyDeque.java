@@ -15,7 +15,7 @@ public class MyDeque<T> {
 	items = (T[]) (new Object[defaultsize]);
 	vals = new int[defaultsize];
 	head = 0;
-	tail = defaultsize-1;
+	tail = defaultsize - 1;
 	size = 0;
     }
     public int getHead(){
@@ -25,6 +25,12 @@ public class MyDeque<T> {
 	return tail;
     }
 
+    private int normalize(int n) {
+	while (n < items.length) {
+	    n += items.length;
+	}
+	return n % items.length;
+    }
 
     private void resize() {
 	int newSize = size;
@@ -74,14 +80,14 @@ public class MyDeque<T> {
 
     public void addFirst(T item) {
 	resize();
-	head = head - 1;
+	head = normalize(head - 1);
 	items[head] = item;
 	size++;
     }
 
     public void addLast(T item) {
 	resize();
-	tail = tail + 1;
+	tail = normalize(tail + 1);
 	items[tail] = item;
 	size++;
     }
@@ -120,7 +126,7 @@ public class MyDeque<T> {
 	}
 	size--;
 	int index = head;
-	head = head + 1;
+	head = normalize(head + 1);
 	return items[index];
     }
 
@@ -130,11 +136,12 @@ public class MyDeque<T> {
 	}
 	size--;
 	int index = tail;
-	tail = tail - 1;
+	tail = normalize(tail - 1);
 	return items[index];
     }
     
     public T removeSmallest(){
+	//find smallest value and index
 	int smallest = vals[head];
 	int smallIndex = head;
 	if (head <= tail){
@@ -157,10 +164,23 @@ public class MyDeque<T> {
 		    smallest = vals[i];
 		}
 	    }
+	}T toReturn = items[smallIndex];
+	//shift everything over to fill gap
+	if (smallIndex <= tail){
+	    for (int i = smallIndex; i < tail; i++){
+		items[i] = items[i+1];
+		vals[i] = vals[i+1];
+	    }
+	    tail = normalize(tail-1);
+	}else{
+	    for (int i = size-1; i > head; i--){
+		items[i] = items[i-1];
+		vals[i] = vals[i-1];
+	    }
+	    head = normalize(head+1);
 	}
-	
 
-	return items[smallIndex];
+	return toReturn;
     }
 
     public int size() {
@@ -188,6 +208,7 @@ public class MyDeque<T> {
 	}
 	return out + "]";
     }
+
     public String toStringPriority(){
 	if (size == 0) {
 	    return "[ ]";
@@ -212,28 +233,6 @@ public class MyDeque<T> {
     }
 
     public static void main(String[]args){
-	MyDeque<String> a = new MyDeque<String>();
-	a.add("Hellow", 1);
-	a.add("mdks", 4);
-	a.add("woop", 16);
-	a.add("meep", -1);
-	a.add("i", 10);
-	a.add("love", 15);
-	/*
-	a.add("jacky", 183791);
-	a.add("boop", 1);
-	a.removeFirst();
-	a.removeLast();
-	a.add("zoop", 1);
-	a.add("poop", 1);
-	a.add("scoop", 1);
-	a.add("zoop", 1);
-	a.removeLast();
-	System.out.println(a.removeLast());*/
-	
-	System.out.println("Deque:"+a);
-	System.out.println("Priorities:"+a.toStringPriority());
-	System.out.println("head: " + a.getHead() + "\ntail: " + a.getTail() + "\nsize: " + a.size());
 
     }
 
