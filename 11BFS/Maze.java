@@ -15,7 +15,8 @@ public class Maze{
     private static final int ASTAR = 3;
     private char[][] maze;
     private int maxx,maxy;
-    private int startx,starty;  
+    private int startx,starty;
+    private int endx,endy;
     public void wait(int millis){
 	try {
 	    Thread.sleep(millis);
@@ -61,6 +62,10 @@ public class Maze{
 	    if(c=='S'){
 		startx = i%maxx;
 		starty = i/maxx;
+	    }
+	    if(c=='E'){
+		endx = i%maxx;
+		endy = i/maxx;
 	    }
 	}
 	int[]a = {startx, starty};
@@ -125,14 +130,14 @@ public class Maze{
      * Replace spaces with x's as you traverse the maze. 
      */
     public boolean solveBest(boolean animate){
-	return true;
+	return solve(animate, BEST);
     }
     /**Solve the maze using a frontier in an A* manner. 
      * When animate is true, print the board at each step of the algorithm.
      * Replace spaces with x's as you traverse the maze. 
      */
     public boolean solveAStar(boolean animate){
-	return true;
+	return solve(animate, ASTAR);
     }
     
     public boolean solveBFS(){
@@ -188,7 +193,9 @@ public class Maze{
 	    }else{ //if its not solved
 		maze[next[1]][next[0]] = '.';
 		for (int[] a : getNeighbors(next[0],next[1])){
-		    frontier.addLast(a);
+		    if (mode == BEST) {frontier.add(a, findDistToEnd(a));}
+		    if (mode == ASTAR) {frontier.add(a, findAStarVal(a));}
+		    else {frontier.add(a);}
 		}
 	    }
 	}
@@ -248,6 +255,16 @@ public class Maze{
 	return blah;
     }
 	
+    public int findDistToEnd(int[] point){ //for BEST first
+	return Math.abs(point[0] - endy) + Math.abs(point[1] - endx);
+    }
+
+    public int findAStarVal(int[] point){ // for ASTAR
+	return Math.abs(Math.abs(startx - point[1]) - Math.abs(point[1] - endx)) + Math.abs(Math.abs(starty - point[0]) - Math.abs(point[0] - endx));
+    }
+
+
+
     /**return an array [x1,y1,x2,y2,x3,y3...]
      *that contains the coordinates of the solution from start to end.
      *Precondition :  solveBFS() OR solveDFS() has already been called (otherwise an empty array is returned)
@@ -306,7 +323,7 @@ public class Maze{
 	    f = new Maze(args[0]);
 	}
 	System.out.println(f.clear);
-	f.solveDFS(true);
+	f.solveBest(true);
 	//	System.out.println(f.toString(true));
 	//	System.out.println(f.solutionCoordinates());
 	
