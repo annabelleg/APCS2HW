@@ -74,13 +74,9 @@ public class Maze{
 	}
 	int[]a = {startx, starty};
 	frontier.add(a);
-	System.out.println(a);
     }
 
     public String toString(){//do not do the funky character codes
-        return toString(false);
-    }
-    public String toString(boolean animate) {//do the funky character codes when animate is true
 	String ans = "";
 	for(int i=0;i<maxx*maxy;i++){
 	    if(i%maxx ==0 && i!=0){
@@ -88,9 +84,14 @@ public class Maze{
 	    }
 	    ans += maze[i%maxx][i/maxx];
 	}
-	if (animate)
-	    return hide+invert+go(0,0)+ans+"\n"+show;
 	return ans;
+    }
+    public String toString(boolean animate) {//do the funky character codes when animate is true
+	if (animate){
+	    wait(100);
+	    return hide+invert+go(0,0)+toString()+"\n"+show;
+	}
+	return toString();
     }
     
     public String frontierToString(){
@@ -167,11 +168,10 @@ public class Maze{
 	//starting point was added in the constructor
 	boolean solved = false;
 	int[] next = new int[2];
-	while (!solved && frontier.size() > 0){
+	while (frontier.size() > 0 && !solved){
 	    if (animate && !solved){
 		System.out.println(clear + toString(true));
 		//	System.out.println(frontierToString());
-		wait(50);
 	    }
 
 	    //mark the points you've been with a '.'
@@ -209,7 +209,7 @@ public class Maze{
 	if (!solved){
 	    System.out.println("Sorry, we could not find a solution!");
 	}
-	
+	System.out.println(toString(true));
 	return solved;
     }
     public ArrayList<int[]> getNeighbors(int x, int y){
@@ -288,7 +288,7 @@ public class Maze{
 	    f = new Maze(args[0]);
 	}
 	System.out.println(f.clear);
-	f.solveAStar(true);
+	f.solveDFS(true);
 	//	System.out.println(f.toString(true));
 	//	System.out.println(f.solutionCoordinates());
 	
