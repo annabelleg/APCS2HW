@@ -85,6 +85,9 @@ public class BTree<E> {
       added to randomly.
       ====================*/
     private void add( TreeNode<E> curr, TreeNode<E> bn ) {
+	if (curr == null){
+	    curr = bn;
+	}
 	if (curr.getLeft() == null || curr.getRight() == null){
 	    if (curr.getLeft() == null && curr.getRight() == null){
 		seed = new Random();
@@ -207,14 +210,14 @@ public class BTree<E> {
 
 	for ( int i=0; i < 8; i++ ) 
 	    t.add( i );
-	System.out.println( "Pre-order: ");
+	/*	System.out.println( "Pre-order: ");
 	t.traverse( PRE_ORDER );
 	System.out.println( "In-order: ");
 	t.traverse( IN_ORDER );
 	System.out.println( "Post-order: ");
 	t.traverse( POST_ORDER );
 	System.out.println( "Height: " + t.getHeight() );
-
+	*/
 	System.out.println( t );
     }
 }
