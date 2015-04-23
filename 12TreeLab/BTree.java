@@ -73,7 +73,7 @@ public class BTree<E> {
       Wrapper method for the recursive add()
       ====================*/     
     public void add( E d ) { 
-	TreeNode<E> D = new TreeNode(d);
+	TreeNode<E> D = new TreeNode<E>(d);
 	add(root, D);
     }
 
@@ -167,15 +167,13 @@ public class BTree<E> {
       Prints out the elements in the tree by doing an
       pre-order Traversal
       ====================*/
-    public String preOrder( TreeNode<E> curr ) {
+    public void preOrder( TreeNode<E> curr ) {
 	//VCC
-	String s = "";
 	if (curr == null)
-	    return s;
-	s+=curr.getData() + " ";
-	s+=preOrder(curr.getLeft()) + " ";
-	s+=preOrder(curr.getLeft()) + " ";
-	return s;
+	    return;
+        System.out.print(curr.getData() + " ");
+        preOrder(curr.getLeft());
+        preOrder(curr.getLeft());
     }
 
 
@@ -186,15 +184,13 @@ public class BTree<E> {
       Prints out the elements in the tree by doing an
       in-order Traversal
       ====================*/
-    public String inOrder( TreeNode<E> curr ) {
+    public void inOrder( TreeNode<E> curr ) {
 	//CVC
-	String s = "";
 	if (curr == null)
-	    return s;
-	s+=inOrder(curr.getLeft())+" ";
-	s+=curr.getData() + " ";
-	s+=inOrder(curr.getLeft()) + " ";
-	return s;
+	    return;
+        inOrder(curr.getLeft());
+	System.out.print(curr.getData() + " ");
+	inOrder(curr.getLeft());
     }
 
     /*======== public void postOrder() ==========
@@ -204,15 +200,13 @@ public class BTree<E> {
       Prints out the elements in the tree by doing a
       post-order Traversal    
       ====================*/
-    public String postOrder( TreeNode<E> curr ) {
+    public void postOrder( TreeNode<E> curr ) {
 	//CCV
-	String s = "";
 	if (curr == null)
-	    return s;
-	s+=postOrder(curr.getLeft()) + " ";
-	s+=postOrder(curr.getLeft()) + " ";
-	s+=curr.getData() + " ";
-	return s;
+	    return;
+        postOrder(curr.getLeft());
+	postOrder(curr.getLeft());
+	System.out.print(curr.getData() + " ");
     }
     
     /*======== public int getHeight()) ==========
