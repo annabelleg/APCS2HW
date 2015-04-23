@@ -10,12 +10,45 @@
   Basic binary tree.
   Uses TreeNode
   Stolen from DW.
-=========================*/
+  =========================*/
 
 import java.io.*;
 import java.util.*;
 
 public class BTree<E> {
+
+    public class TreeNode<E>{
+	private E data;
+	private TreeNode left, right;
+
+	public TreeNode(){}
+	public TreeNode(E stuff){
+	    data = stuff;
+	    left = null;
+	    right = null;
+	}
+
+	public E getData(){
+	    return data;
+	}
+	public TreeNode getLeft(){
+	    return left;
+	}
+	public TreeNode getRight(){
+	    return right;
+	}
+
+	public void setData(E stuff){
+	    data = stuff;
+	}
+	public void setLeft(TreeNode l){
+	    left = l;
+	}
+	public void setRight(TreeNode r){
+	    right = r;
+	}
+
+    }
 
     public static final int PRE_ORDER = 0;
     public static final int IN_ORDER = 1;
@@ -110,10 +143,10 @@ public class BTree<E> {
 
     /*======== public String getLevel() ==========
       Inputs:   TreeNode<E> curr
-                int level
-                int currLevel  
+      int level
+      int currLevel  
       Returns: A string containing all the elements on the
-               given level, ordered left -> right
+      given level, ordered left -> right
       
       ====================*/
     private String getLevel( TreeNode<E> curr, int level, int currLevel ) {
@@ -134,9 +167,9 @@ public class BTree<E> {
       Note that you cannot tell exactly where 3, 4 and 5 lie.
       That is ok, but if you want a CHALLENGE, you can try to
       get the output to look nicer, something like this:
-             0
-          1      2
-            3  4   5
+      0
+      1      2
+      3  4   5
       ====================*/
     public String toString() {
 	return "";
