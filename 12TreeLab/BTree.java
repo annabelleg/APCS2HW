@@ -19,7 +19,7 @@ public class BTree<E> {
 
     public class TreeNode<E>{
 	private E data;
-	private TreeNode left, right;
+	private TreeNode<E> left, right;
 
 	public TreeNode(){}
 	public TreeNode(E stuff){
@@ -67,7 +67,9 @@ public class BTree<E> {
       
       Wrapper method for the recursive add()
       ====================*/     
-    public void add( E d ) { }
+    public void add( E d ) { 
+	add(root, d);
+    }
 
     /*======== public void add() ==========
       Inputs:   TreeNode<E> curr, TreeNode<E> bn  
