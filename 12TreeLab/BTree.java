@@ -128,8 +128,10 @@ public class BTree<E> {
       ====================*/
     public void preOrder( TreeNode<E> curr ) {
 	//VCC
-	String s = "" + curr.getData();
-	preOrder (curr.getLeft());
+	if (curr == null)
+	    return;
+	curr.getData();
+	preOrder(curr.getLeft());
 	preOrder(curr.getLeft());
     }
 
@@ -143,6 +145,11 @@ public class BTree<E> {
       ====================*/
     public void inOrder( TreeNode<E> curr ) {
 	//CVC
+	if (curr == null)
+	    return;
+	inOrder(curr.getLeft());
+	curr.getData();
+	inOrder(curr.getLeft());
     }
 
     /*======== public void postOrder() ==========
@@ -154,6 +161,11 @@ public class BTree<E> {
       ====================*/
     public void postOrder( TreeNode<E> curr ) {
 	//CCV
+	if (curr == null)
+	    return;
+	postOrder(curr.getLeft());
+	postOrder(curr.getLeft());
+	curr.getData();
     }
     
     /*======== public int getHeight()) ==========
