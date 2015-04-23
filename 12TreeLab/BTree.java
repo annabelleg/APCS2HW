@@ -60,6 +60,7 @@ public class BTree<E> {
 
     public BTree() {
 	root = null;
+	seed = new Random();
     }
 
     /*======== public void add() ==========
@@ -90,7 +91,6 @@ public class BTree<E> {
 	}
 	if (curr.getLeft() == null || curr.getRight() == null){
 	    if (curr.getLeft() == null && curr.getRight() == null){
-		seed = new Random();
 		if (seed.nextInt(1) == 0){
 		    curr.setLeft(bn);
 		}else{
@@ -102,7 +102,6 @@ public class BTree<E> {
 		curr.setRight(bn);
 	    }
 	}else{
-	    seed = new Random();
 	    if (seed.nextInt(1) == 0){
 		add(curr.getLeft(), bn);
 	    }else{
@@ -128,6 +127,10 @@ public class BTree<E> {
       pre-order Traversal
       ====================*/
     public void preOrder( TreeNode<E> curr ) {
+	//VCC
+	String s = "" + curr.getData();
+	preOrder (curr.getLeft());
+	preOrder(curr.getLeft());
     }
 
 
@@ -139,6 +142,7 @@ public class BTree<E> {
       in-order Traversal
       ====================*/
     public void inOrder( TreeNode<E> curr ) {
+	//CVC
     }
 
     /*======== public void postOrder() ==========
@@ -149,6 +153,7 @@ public class BTree<E> {
       post-order Traversal    
       ====================*/
     public void postOrder( TreeNode<E> curr ) {
+	//CCV
     }
     
     /*======== public int getHeight()) ==========
