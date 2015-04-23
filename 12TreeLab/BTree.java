@@ -54,6 +54,7 @@ public class BTree<E> {
     public static final int IN_ORDER = 1;
     public static final int POST_ORDER = 2;
     
+    public Random seed;
 
     private TreeNode<E> root;
 
@@ -68,7 +69,8 @@ public class BTree<E> {
       Wrapper method for the recursive add()
       ====================*/     
     public void add( E d ) { 
-	add(root, d);
+	TreeNode<E> D = new TreeNode(d);
+	add(root, D);
     }
 
     /*======== public void add() ==========
@@ -83,6 +85,27 @@ public class BTree<E> {
       added to randomly.
       ====================*/
     private void add( TreeNode<E> curr, TreeNode<E> bn ) {
+	if (curr.getLeft() == null || curr.getRight() == null){
+	    if (curr.getLeft() == null && curr.getRight() == null){
+		seed = new Random();
+		if (seed.nextInt(1) == 0){
+		    curr.setLeft(bn);
+		}else{
+		    curr.setRight(bn);
+		}
+	    }else if(curr.getLeft() == null){
+		curr.setLeft(bn);
+	    }else{
+		curr.setRight(bn);
+	    }
+	}else{
+	    seed = new Random();
+	    if (seed.nextInt(1) == 0){
+		add(curr.getLeft(), bn);
+	    }else{
+		add(curr.getRight(), bn);
+	    }
+	}
     }
     
     public void traverse( int mode) {
