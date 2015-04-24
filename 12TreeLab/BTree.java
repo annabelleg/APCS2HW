@@ -193,7 +193,7 @@ public class BTree<E> {
 	    return;
         System.out.print(curr.getData() + " ");
         preOrder(curr.getLeft());
-        preOrder(curr.getLeft());
+        preOrder(curr.getRight());
     }
 
 
@@ -210,7 +210,7 @@ public class BTree<E> {
 	    return;
         inOrder(curr.getLeft());
 	System.out.print(curr.getData() + " ");
-	inOrder(curr.getLeft());
+	inOrder(curr.getRight());
     }
 
     /*======== public void postOrder() ==========
@@ -224,8 +224,12 @@ public class BTree<E> {
 	//CCV
 	if (curr == null)
 	    return;
+	if (curr.getLeft()==null && curr.getRight()==null){
+	    System.out.print(curr.getData() + " ");
+	    return;
+	}
         postOrder(curr.getLeft());
-	postOrder(curr.getLeft());
+	postOrder(curr.getRight());
 	System.out.print(curr.getData() + " ");
     }
     
@@ -272,10 +276,12 @@ public class BTree<E> {
 	String s = "";
 	if (level == 0)
 	    return ""+root.getData();
+	if (level == 1)
+	    return ""+root.getLeft().getData() + " " + root.getRight().getData();
 	else{
 	    while(currLevel != level){
-		s+= getLevel(curr.getLeft(), level, currLevel+1);
-		s+= getLevel(curr.getRight(), level, currLevel+1);
+		getLevel(curr.getLeft(), level, currLevel+1);
+		getLevel(curr.getRight(), level, currLevel+1);
 	    }
 	    if (curr == null)
 		return "";
@@ -316,7 +322,7 @@ public class BTree<E> {
 
 	BTree<Integer> t = new BTree<Integer>();
 
-	for ( int i=0; i < 10; i++ ) 
+	for ( int i=0; i < 8; i++ ) 
 	    t.add( i );
 	System.out.println( "Pre-order: ");
 	t.traverse( PRE_ORDER );
@@ -325,7 +331,7 @@ public class BTree<E> {
 	System.out.println( "Post-order: ");
 	t.traverse( POST_ORDER );
 	System.out.println( "Height: " + t.getHeight() );
-	System.out.println( "Level 0: " + t.getLevel(0));
+	System.out.println( "Level 1: " + t.getLevel(1));
 	System.out.println( t );
     }
 }
