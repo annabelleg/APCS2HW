@@ -75,7 +75,7 @@ public class BTree<E> {
       ====================*/     
     public void add( E d ) { 
 	TreeNode<E> D = new TreeNode<E>(d);
-	add(root, D);
+	add(root, d);
     }
 
     private void add(TreeNode<E> curr, E val){
@@ -93,23 +93,26 @@ public class BTree<E> {
 		if (left == null && right == null){
 		    int rand = seed.nextInt(2);
 		    if (rand == 0){
-			left.setData(val);
+		        curr.setLeft( new TreeNode<E>(val));
+			return;
 		    }else{
-			right.setData(val);
+		        curr.setRight( new TreeNode<E>(val));
+			return;
 		    }
 		}
 		else if (left == null){
-		    left.setData(val);
+		    curr.setLeft( new TreeNode<E>(val));
+		    return;
 		}else{
-		    right.setData(val);
+		    curr.setRight( new TreeNode<E>(val));
+		    return;
 		}
 	    }
 	    else{
-		int rand = seed.nextInt(2);
-		if (rand == 0){
-		    add(left, val);
+	        if( seed.nextInt(2) == 0){
+		    add(curr.getLeft(), val);
 		}else{
-		    add(right,val);
+		    add(curr.getRight(),val);
 		}
 	    }
 	}
@@ -143,19 +146,25 @@ public class BTree<E> {
 		if (left == null && right == null){
 		    if (seed.nextInt(2) == 0){
 			curr.setLeft(bn);
+			return;
 		    }else{
 			curr.setRight(bn);
+			return;
 		    }
 		}else if(left == null){
 		    curr.setLeft(bn);
+		    return;
 		}else{
 		    curr.setRight(bn);
+		    return;
 		}
 	    }else{ //if neither are null, recurse!
 		if (seed.nextInt(2) == 0){
-		    add(left, bn);
+		    add(curr.getLeft(), bn);
+		    return;
 		}else{
-		    add(right, bn);
+		    add(curr.getRight(), bn);
+		    return;
 		}
 	
 	    }
@@ -306,9 +315,8 @@ public class BTree<E> {
     public static void main( String[] args ) {
 
 	BTree<Integer> t = new BTree<Integer>();
-	t.add(1);
 
-	for ( int i=0; i < 8; i++ ) 
+	for ( int i=0; i < 10; i++ ) 
 	    t.add( i );
 	System.out.println( "Pre-order: ");
 	t.traverse( PRE_ORDER );
