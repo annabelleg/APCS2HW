@@ -27,7 +27,6 @@ public class BTree<E> {
 	    data = stuff;
 	    left = null;
 	    right = null;
-	    height = 0;
 	}
 
 	public E getData(){
@@ -58,7 +57,6 @@ public class BTree<E> {
     public static final int PRE_ORDER = 0;
     public static final int IN_ORDER = 1;
     public static final int POST_ORDER = 2;
-    public int height;
     
     public Random seed;
 
@@ -140,20 +138,16 @@ public class BTree<E> {
 		if (left == null && right == null){
 		    if (seed.nextInt(2) == 0){
 			curr.setLeft(bn);
-			height++;
 			return;
 		    }else{
 			curr.setRight(bn);
-			height++;
 			return;
 		    }
 		}else if(left == null){
 		    curr.setLeft(bn);
-		    height++;
 		    return;
 		}else{
 		    curr.setRight(bn);
-		    height++;
 		    return;
 		}
 	    }else{ //if neither are null, recurse!
@@ -310,7 +304,12 @@ public class BTree<E> {
       3  4   5
       ====================*/
     public String toString() {
-	return "";
+        int height = getHeight();
+	String s = "" + root.getData() + "\n";
+	for (int i = 1; i <= height; i++){
+	    s+=getLevel(i) + "\n";
+	}
+	return s;
     }
 	
 
