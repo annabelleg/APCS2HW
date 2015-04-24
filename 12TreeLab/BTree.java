@@ -48,7 +48,7 @@ public class BTree<E> {
 	    right = r;
 	}
 	public String toString(){
-	    return ""+data;
+	    return data.toString();
 	}
 
     }
@@ -227,12 +227,13 @@ public class BTree<E> {
         int counter = 0;
         return getHeight(curr, counter);
     }
+
     public int getHeight(TreeNode<E> curr, int counter){
 	if (curr == null){
 	    return counter;
 	}
-        int left = getHeight(curr.getLeft(), counter);
-	int right = getHeight(curr.getRight(), counter);
+        int left = getHeight(curr.getLeft(), counter+1);
+	int right = getHeight(curr.getRight(), counter+1);
 	if (left > right)
 	    return left;
 	return right;
