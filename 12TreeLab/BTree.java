@@ -271,27 +271,24 @@ public class BTree<E> {
       given level, ordered left -> right
       
       ====================*/
-    private String getLevel( TreeNode<E> curr, int level, int currLevel ) {
-	if (level > height){
-	    return "The level you requested is too high! Please ask for a lower level :(";
-	}
+    private String getLevel( TreeNode<E> curr, int level ) {
+        if (curr == null)
+	    return "";
 	if (level == 0)
 	    return ""+root.getData();
 	if (level == 1)
 	    return ""+root.getLeft().getData() +" "+ root.getRight().getData();
 	else{
-	    while(currLevel != level){
-		getLevel(curr.getLeft(), level, currLevel+1);
-		getLevel(curr.getRight(), level, currLevel+1);
+	    if (level == getHeight(root) - getHeight(curr)){
+		return ""+curr.getData();
+	    }else{
+		return ""+getLevel(curr.getLeft(), level) +" "+getLevel(curr.getRight(), level);
 	    }
-	    if (curr == null)
-		return "";
-	    return " "+curr.getData();
 	}
 	    
     }
     private String getLevel(int level){
-	return getLevel(root, level, 0);
+	return getLevel(root, level);
     }
     
     /*======== public String toString()) ==========
@@ -321,7 +318,7 @@ public class BTree<E> {
 
 	BTree<Integer> t = new BTree<Integer>();
 
-	for ( int i=0; i < 6 ;i++ ) 
+	for ( int i=0; i < 16 ;i++ ) 
 	    t.add( i );
 	System.out.println( "Pre-order: ");
 	t.traverse( PRE_ORDER );
@@ -330,7 +327,11 @@ public class BTree<E> {
 	System.out.println( "Post-order: ");
 	t.traverse( POST_ORDER );
 	System.out.println( "Height: " + t.getHeight() );
-	System.out.println( "Level 1: " + t.getLevel(2));
+	System.out.println( "Level 0: " + t.getLevel(0));
+	System.out.println( "Level 1: " + t.getLevel(1));
+	System.out.println( "Level 2: " + t.getLevel(2));
+	System.out.println( "Level 3: " + t.getLevel(3));
+	System.out.println( "Level 4: " + t.getLevel(4));
 	System.out.println( t );
     }
 }
