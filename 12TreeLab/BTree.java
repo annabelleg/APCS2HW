@@ -140,26 +140,29 @@ public class BTree<E> {
 		if (left == null && right == null){
 		    if (seed.nextInt(2) == 0){
 			curr.setLeft(bn);
+			height++;
 			return;
 		    }else{
 			curr.setRight(bn);
+			height++;
 			return;
 		    }
 		}else if(left == null){
 		    curr.setLeft(bn);
+		    height++;
 		    return;
 		}else{
 		    curr.setRight(bn);
+		    height++;
 		    return;
 		}
 	    }else{ //if neither are null, recurse!
 		if (seed.nextInt(2) == 0){
 		    add(curr.getLeft(), bn);
-		    height++;
+
 		    return;
 		}else{
 		    add(curr.getRight(), bn);
-		    height++;
 		    return;
 		}
 	
@@ -269,9 +272,9 @@ public class BTree<E> {
       
       ====================*/
     private String getLevel( TreeNode<E> curr, int level, int currLevel ) {
-	/*	if (level > height){
+	if (level > height){
 	    return "The level you requested is too high! Please ask for a lower level :(";
-	    }*/
+	}
 	if (level == 0)
 	    return ""+root.getData();
 	if (level == 1)
