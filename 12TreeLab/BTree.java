@@ -75,17 +75,13 @@ public class BTree<E> {
       ====================*/     
     public void add( E d ) { 
 	TreeNode<E> D = new TreeNode<E>(d);
-	add(root, d);
+	add(root, D);
     }
 
     private void add(TreeNode<E> curr, E val){
 	if (root == null){
 	     root = new TreeNode<E>(val);
 	     return;
-	}
-	if (curr == null){
-	    curr = new TreeNode<E>(val);
-	    return;
 	}else{
 	    TreeNode<E> left = curr.getLeft();
 	    TreeNode<E> right = curr.getRight();
@@ -133,10 +129,6 @@ public class BTree<E> {
     private void add( TreeNode<E> curr, TreeNode<E> bn ) {
 	if (root == null){
 	    root = bn;
-	    return;
-	}
-	if (curr == null){
-	    curr = bn;
 	    return;
 	}else{
 	    TreeNode<E> left = curr.getLeft();
@@ -322,7 +314,7 @@ public class BTree<E> {
 
 	BTree<Integer> t = new BTree<Integer>();
 
-	for ( int i=0; i < 8; i++ ) 
+	for ( int i=0; i < 6 ;i++ ) 
 	    t.add( i );
 	System.out.println( "Pre-order: ");
 	t.traverse( PRE_ORDER );
