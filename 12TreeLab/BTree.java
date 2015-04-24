@@ -80,6 +80,7 @@ public class BTree<E> {
     private void add(TreeNode<E> curr, E val){
 	if (curr == null){
 	    curr = new TreeNode<E>(val);
+	    return;
 	}else{
 	    TreeNode<E> left = curr.getLeft();
 	    TreeNode<E> right = curr.getRight();
@@ -101,9 +102,9 @@ public class BTree<E> {
 	    else{
 		int rand = seed.nextInt(2);
 		if (rand == 0){
-		    left.setData(val);
+		    add(left, val);
 		}else{
-		    right.setData(val);
+		    add(right,val);
 		}
 	    }
 	}
@@ -124,6 +125,7 @@ public class BTree<E> {
     private void add( TreeNode<E> curr, TreeNode<E> bn ) {
 	if (curr == null){
 	    curr = bn;
+	    return;
 	}else{
 	    TreeNode<E> left = curr.getLeft();
 	    TreeNode<E> right = curr.getRight();
