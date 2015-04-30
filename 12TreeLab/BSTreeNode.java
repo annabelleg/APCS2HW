@@ -24,6 +24,9 @@ public class BSTreeNode<T extends Comparable> {
     public BSTreeNode<T> getRight() {
 	return right;
     }
+    public int getNumOfMe(){
+	return numOfMe;
+    }
 
     //mutators
     public void setData( T d ) {
@@ -35,7 +38,6 @@ public class BSTreeNode<T extends Comparable> {
     public void setRight( BSTreeNode<T> r ) {
 	right = r;
     }
-
     public void addOneOfMe(int n){
 	numOfMe+=n;
     }
