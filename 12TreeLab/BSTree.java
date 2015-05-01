@@ -3,6 +3,10 @@ import java.io.*;
 import java.util.*;
 
 public class BSTree <T extends Comparable> {
+    
+    public String name(){
+	return "gary.annabelle";
+    }
 
     private BSTreeNode<T> root;
 
