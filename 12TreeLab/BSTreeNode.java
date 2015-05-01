@@ -43,9 +43,12 @@ public class BSTreeNode<T extends Comparable> {
     }
 
     public int compareTo(BSTreeNode<T> other) {
-	return data.compareTo(other);
+	return data.compareTo(other.getData());
     }
  
+    public String toString(){
+	return ""+data;
+    }
 }
 
 //add counter for how many times that T value exists
