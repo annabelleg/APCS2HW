@@ -39,14 +39,12 @@ public class BSTree <T extends Comparable> {
 	    return t;
 	}else if (t.compareTo(curr) < 0){
 	    curr.setLeft(add(curr.getLeft(), t));
-	    return curr;
 	}else if (t.compareTo(curr) == 0){
 	    t.addOneOfMe(1);
-	    return curr;
 	}else{
 	    curr.setRight(add(curr.getRight(), t));
-	    return curr;
 	}
+	return curr;
 	
     }
 
@@ -222,6 +220,11 @@ public class BSTree <T extends Comparable> {
 	a.add(10);
 	a.add(9);
 	a.add(11);
+	a.add(90);
+	a.add(75);
+	a.add(15);
+	a.add(13);
+	
 	System.out.println(a);
     }
 
