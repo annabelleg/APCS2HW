@@ -39,13 +39,15 @@ public class BSTree <T extends Comparable> {
 	    return t;
 	}else if (t.compareTo(curr) < 0){
 	    curr.setLeft(add(curr.getLeft(), t));
+	    return curr;
 	}else if (t.compareTo(curr) == 0){
 	    t.addOneOfMe(1);
+	    return curr;
 	}else{
 	    curr.setRight(add(curr.getRight(), t));
+	    return curr;
 	}
-	return null;
-	    
+	
     }
 
     /*======== public void remove() ==========
@@ -97,7 +99,24 @@ public class BSTree <T extends Comparable> {
 	inOrderHelper( t.getRight() );
     }
     
-    //All credit for maxLength(), spaces(), getLevel(), and toString() goes to Dennis Yatunin!!
+    /**
+     * stolen from: Dennis Yatunin
+     * (no not really stolen from, donated by)
+     */
+
+    public int getHeight(){
+	return getHeight(root);
+    }
+
+    private int getHeight(BSTreeNode<T> r ){
+	if(r == null){
+	    return 0;
+	}else{
+	    //System.out.println("recursion height");
+	    return 1 + Math.max(getHeight(r.getLeft()),
+				getHeight(r.getRight()));
+	}
+    }
 
     private int maxLength() {
 	// returns the minimum number of characters required
@@ -149,26 +168,33 @@ public class BSTree <T extends Comparable> {
       ___._______._______._______.
       _.___.___.___.___.___.___.___.
       ._._._._._._._._._._._._._._._.
-
       In these diagrams, each dot represents wordLength characters,
       each underscore represents wordLength spaces, and, for any nodes
       that are null, the dots will be "replaced" by underscores.
     */
 
     private String getLevel(BSTreeNode<T> curr, int currLevel, int targetLevel, int height, int wordLength) {
-	if (currLevel == 1)
-	    return curr.toString() + spaces(wordLength - curr.toString().length()) +
-		spaces(wordLength * Math.pow(2, height - targetLevel + 1) - wordLength);
+	if (currLevel == 1){
+	    return curr.toString() + 
+		spaces(wordLength - curr.toString().length()) +
+		spaces(wordLength * 
+		       Math.pow(2, height - targetLevel + 1) - 
+		       wordLength);
+	}
 	String result = "";
-	if (curr.getLeft() != null)
+	if (curr.getLeft() != null){
 	    result += getLevel(curr.getLeft(), currLevel - 1, targetLevel, height, wordLength);
-	else result += spaces(wordLength * Math.pow(2, height - targetLevel + currLevel - 1));
-	if (curr.getRight() != null)
+	}else{
+	    result += spaces(wordLength * Math.pow(2, height - targetLevel + currLevel - 1));
+	}
+	if (curr.getRight() != null){
 	    result += getLevel(curr.getRight(), currLevel - 1, targetLevel, height, wordLength);
-	else result += spaces(wordLength * Math.pow(2, height - targetLevel + currLevel - 1));
+	}else{ 
+	    result += spaces(wordLength * Math.pow(2, height - targetLevel + currLevel - 1));
+	}
 	return result;
     }
-
+		
     public String toString() {
 	if (root == null)
 	    return "";
@@ -176,56 +202,26 @@ public class BSTree <T extends Comparable> {
 	int height = getHeight();
 	int wordLength = maxLength();
 	// add the every level of the tree except the last one
-	for (int level = 1; level < height; level++)
+	for (int level = 1; level < height; level++){
 	    // remove extra spaces from the end of each level's String to prevent lines from
 	    // getting unnecessarily long and add spaces to the front of each level's String
 	    // to keep everything centered
 	    result += spaces(wordLength * Math.pow(2, height - level) - wordLength) +
 		getLevel(root, level, level, height, wordLength).replaceFirst("\\s+$", "") +
 		"\n";
+	}
 	// now add the last level (level = height)
 	result += getLevel(root, height, height, height, wordLength).replaceFirst("\\s+$", "");
+				
 	return result;
-    }
-
-    /*======== public int getHeight()) ==========
-      Inputs:   
-      Returns: The height of the tree
-
-      Wrapper for the recursive getHeight method
-      ====================*/
-    public int getHeight() {
-	return getHeight( root );
-    }
-    /*======== public int getHeight() ==========
-      Inputs:   TreeNode<E> curr  
-      Returns:  The height of the tree rooted at node curr
-      
-      ====================*/
-    public int getHeight( BSTreeNode<T> curr ) {
-        int counter = 0;
-        return getHeight(curr, counter);
-    }
-
-    public int getHeight(BSTreeNode<T> curr, int counter){
-	if (curr == null){
-	    return counter;
-	}
-        int left = getHeight(curr.getLeft(), counter+1);
-	int right = getHeight(curr.getRight(), counter+1);
-	if (left > right)
-	    return left;
-	return right;
-	
     }
 
    
     public static void main( String[] args ) {
 	BSTree<Integer> a = new BSTree<Integer>();
-	for (int i = 0; i < 8; i ++){
-
-	    a.add(i);
-	}
+	a.add(10);
+	a.add(9);
+	a.add(11);
 	System.out.println(a);
     }
 
