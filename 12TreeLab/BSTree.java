@@ -70,8 +70,27 @@ public class BSTree <T extends Comparable> {
       Should remove the value c from the tree rooted at
       curr, if it exists.
       ====================*/
+
+    //********This code helpfully supplied by Peter Strbik!!! Thank you Peter!!
     private BSTreeNode<T> remove( BSTreeNode<T> curr, T c ) {
-	return null;
+	if (curr == null){
+	    return curr;
+	}
+	if (curr.compareTo(c) < 0){
+	    curr.setRight(remove(curr.getRight(), c));
+	}
+	else if (curr.compareTo(c) > 0){
+	    curr.setLeft(remove(curr.getLeft(), c));
+	}
+	else if (!isLeaf(curr)){
+	    curr.setData(findMin(curr.getRight()).getData());
+	    curr.setRight(remove(curr.getRight(), curr.getData()));
+	}
+	else{
+	    curr = (curr.getLeft() != null) ? curr.getLeft() : curr.getRight();
+	}
+	return curr;
+	    
     }
 
 
@@ -99,6 +118,33 @@ public class BSTree <T extends Comparable> {
 	inOrderHelper( t.getLeft() );
 	System.out.print( t.getData() + " ");
 	inOrderHelper( t.getRight() );
+    }
+
+    private BSTreeNode<T> findMax(){
+	return findMax(root);
+    }
+    private BSTreeNode<T> findMax(BSTreeNode<T> curr){
+	if (curr == null){
+	    return null;
+	}else if (curr.getRight() == null){
+	    return curr;
+	}else{
+	    return findMax(curr.getRight());
+	}
+    }
+
+    private BSTreeNode<T> findMin(){
+	return findMin(root);
+    }
+    private BSTreeNode<T> findMin(BSTreeNode<T> curr){
+	if (curr == null){
+	    return null;
+	}
+	else if (curr.getLeft() == null){
+	    return curr;
+	}else{
+	    return findMin(curr.getLeft());
+	}
     }
     
     /**
@@ -221,14 +267,26 @@ public class BSTree <T extends Comparable> {
    
     public static void main( String[] args ) {
 	BSTree<Integer> a = new BSTree<Integer>();
-	a.add(10);
-	a.add(9);
-	a.add(11);
-	a.add(90);
-	a.add(75);
+	/*  for (int i = 0; i < 16; i++){
+	    a.add((int) (Math.random()*50));
+	    }*/
+	a.add(50);
+		a.add(30);
+		/*	a.add(70);
 	a.add(15);
-	a.add(13);
-	
+	a.add(85);
+	a.add(25);
+	a.add(65);
+	a.add(100);
+	a.add(10);
+	a.add(60);
+	a.add(40);
+	a.add(75);
+	a.add(45);
+	a.add(35);
+	a.add(67);*/
+	System.out.println(a + "\n\n\n");
+	a.remove(50);
 	System.out.println(a);
     }
 
