@@ -26,18 +26,16 @@ public class MyHeap{
     public void add(int n){
 	if (data == null){
 	    data.add(n);
-	    size++;
-	    data.set(0,size);
+	    data.set(0,++size);
 	    return;
 	}
 	if (data.get(0) == 0){
 	    data.add(n);
-	    size++;
-	    data.set(0, size);
+	    data.set(0, ++size);
 	    return;
 	} else {
 	    //   int temp = data.get(0) + 1;
-	    // data.set(0, temp);
+	    data.set(0, ++size);
 	    return;
 	}
     }
