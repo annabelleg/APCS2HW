@@ -39,12 +39,20 @@ public class MyHeap{
 	data.set(1, data.get(size));
 	data.remove(size);
 	if (size > 1){
-	    // pushDownIntoPlace()
+	    // pushDownIntoPlace(1)
 	}
 	data.set(0, --size);
 	return root;
 	
     } 
+
+    public void pushDownIntoPlace(int index){
+	if (MaxOrMin){
+	    if (data.get(index) < data.get(2*index)){
+		
+	    }
+	    
+    }
     public void add(int n){
 	size++;
 	data.set(0, size);
