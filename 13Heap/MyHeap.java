@@ -9,6 +9,7 @@ public class MyHeap{
 	data = new ArrayList<Integer>(8);
 	size = 0;
         data.add(size);
+	MaxOrMin = true;
     } 
 
     public MyHeap(boolean isMax)// -> creates a max-heap when boolean is true, min-heap when the boolean is false
@@ -43,15 +44,23 @@ public class MyHeap{
 	data.set(0, size);
 	data.add(n);
 	if (size > 1){
-	    putInCorrectOrder(isMax);
+	    putInCorrectOrder(MaxOrMin, size);
 	}
 	return;
     }
     public int getSize(){
 	return size;
     }
-    public void putInCorrectOrder(boolean maxormin){
+    public void putInCorrectOrder(boolean maxormin, int index){
 	if (maxormin){//if it's a max_heap, do this
+	    if (data.get(index) > data.get( (index)/2)){ // if child > parent
+		int temp = data.get(index);
+		data.set(index, data.set((index)/2, temp));
+		if (index/4 != 0){
+		    putInCorrectOrder(MaxOrMin, index/2);
+		}
+	    }
+	}
 	    
     }
     public int peek(){
@@ -65,6 +74,8 @@ public class MyHeap{
 	MyHeap h = new MyHeap();
 	h.add(4);
 	h.add(6);
+	h.add(3);
+	h.add(8);
 	System.out.println(h);
 	//System.out.println(h.remove());
 	System.out.println("Size: " + h.getSize());
