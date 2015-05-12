@@ -2,7 +2,7 @@ import java.util.*;
 public class MyHeap{
     private ArrayList<Integer> data;
     private int size;
-    private boolean MaxOrMin;
+    private final boolean MaxOrMin;
     
 
     public MyHeap(){
@@ -11,7 +11,7 @@ public class MyHeap{
 
     public MyHeap(boolean isMax)// -> creates a max-heap when boolean is true, min-heap when the boolean is false
     {
-	data = new ArrayList<Integer>(8);
+	data = new ArrayList<Integer>();
 	size = 0;
         data.add(size);
 	MaxOrMin = isMax;
@@ -34,8 +34,15 @@ public class MyHeap{
     }
 
     public int remove(){
+	
+	int root = data.get(1);
+	data.set(1, data.get(size));
+	data.remove(size);
+	if (size > 1){
+	    // pushDownIntoPlace()
+	}
 	data.set(0, --size);
-	return data.get(1);
+	return root;
 	
     } 
     public void add(int n){
@@ -43,28 +50,28 @@ public class MyHeap{
 	data.set(0, size);
 	data.add(n);
 	if (size > 1){
-	    putInCorrectOrder(MaxOrMin, size);
+	    putInCorrectOrder(size);
 	}
 	return;
     }
     public int getSize(){
 	return size;
     }
-    public void putInCorrectOrder(boolean maxormin, int index){
-	if (maxormin){//if it's a max_heap, do this
+    public void putInCorrectOrder(int index){
+	if (MaxOrMin){//if it's a max_heap, do this:
 	    if (data.get(index) > data.get( (index)/2)){ // if child > parent
 		int temp = data.get(index);
 		data.set(index, data.set((index)/2, temp));
 		if (index/4 != 0){
-		    putInCorrectOrder(MaxOrMin, index/2);
+		    putInCorrectOrder(index/2);
 		}
 	    }
-	}else{
-	    if (data.get(index) < data.get( (index)/2)){ // if child > parent
+	}else{ //if it's a min_heap, do this:
+	    if (data.get(index) < data.get( (index)/2)){ // if child < parent
 		int temp = data.get(index);
 		data.set(index, data.set((index)/2, temp));
 		if (index/4 != 0){
-		    putInCorrectOrder(MaxOrMin, index/2);
+		    putInCorrectOrder(index/2);
 		}
 	    }
 	} 
@@ -82,6 +89,8 @@ public class MyHeap{
 	h.add(6);
 	h.add(3);
 	h.add(8);
+	h.add(16);
+	h.add(2);
 	System.out.println(h);
 	//System.out.println(h.remove());
 	System.out.println("Size: " + h.getSize());
