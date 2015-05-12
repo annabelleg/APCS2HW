@@ -1,7 +1,8 @@
 import java.util.*;
 public class MyHeap{
     private ArrayList<Integer> data;
-    int size;
+    private int size;
+    private boolean MaxOrMin;
     
 
     public MyHeap(){
@@ -9,8 +10,15 @@ public class MyHeap{
 	size = 0;
         data.add(size);
     } 
+
+    public MyHeap(boolean isMax)// -> creates a max-heap when boolean is true, min-heap when the boolean is false
+    {
+	super();
+	MaxOrMin = isMax;
+	
+    }
     public String toString(){
-	String result = "";
+	/*	String result = "";
 	int i = 1;
 	while (i < data.size()){
 	    int j = i;
@@ -21,7 +29,8 @@ public class MyHeap{
 	    result += "\n";
 	    i++;
 	}
-	return result;
+	return result;*/
+	return data.toString();
     }
 
     public int remove(){
@@ -30,30 +39,26 @@ public class MyHeap{
 	
     } 
     public void add(int n){
-	if (data.get(0) == 0){
-	    data.set(0, ++size);
-	    data.add(n);
-	    return;
-	} else {
-	    data.set(0, ++size);
-	    if (size < data.size()){
-		data.set(size,n);
-	    }else{
-		data = resize();
-		data.set(size, n);
-	    }
-	    return;
+	size++;
+	data.set(0, size);
+	data.add(n);
+	if (size > 1){
+	    putInCorrectOrder(isMax);
 	}
+	return;
     }
     public int getSize(){
 	return size;
     }
-    public ArrayList<Integer> resize(){
-	ArrayList<Integer> temp = new ArrayList<Integer>(data.size()*2);
-	for (int i = 0; i < data.size(); i++){
-	    temp.set(i, data.get(i));
+    public void putInCorrectOrder(boolean maxormin){
+	if (maxormin){//if it's a max_heap, do this
+	    
+    }
+    public int peek(){
+	if (data.get(0)>0){
+	    return data.get(1);
 	}
-	return temp;
+	throw new IndexOutOfBoundsException();
     }
 
     public static void main(String[]args){
@@ -61,7 +66,7 @@ public class MyHeap{
 	h.add(4);
 	h.add(6);
 	System.out.println(h);
-	System.out.println(h.remove());
+	//System.out.println(h.remove());
 	System.out.println("Size: " + h.getSize());
     }
 }
