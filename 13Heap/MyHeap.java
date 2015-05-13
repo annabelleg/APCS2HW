@@ -39,7 +39,7 @@ public class MyHeap{
 	data.set(1, data.get(size));
 	data.remove(size);
 	if (size > 1){
-	    // pushDownIntoPlace(1)
+	    pushDownIntoPlace(1);
 	}
 	data.set(0, --size);
 	return root;
@@ -48,9 +48,26 @@ public class MyHeap{
 
     public void pushDownIntoPlace(int index){
 	if (MaxOrMin){
-	    if (data.get(index) < data.get(2*index)){
-		
+	    int larger = 2*index;
+	    int smaller = 2*index + 1;
+	    if (data.get(larger+1) > data.get(larger)){
+		larger ++;
+		smaller --;
 	    }
+	    if (data.get(index) < data.get(larger)){
+		int temp = data.get(index);
+		data.set(index, data.set(larger, temp));
+		if (larger*2 <= size){
+		    pushDownIntoPlace(larger);
+		}
+	    }else if (data.get(index) < data.get(smaller)){
+		int temp = data.get(index);
+		data.set(index, data.set(smaller, temp));
+		if (smaller*2 <= size){
+		    pushDownIntoPlace(smaller);
+		}
+	    } else { return; }
+	}
 	    
     }
     public void add(int n){
@@ -92,7 +109,7 @@ public class MyHeap{
     }
 
     public static void main(String[]args){
-	MyHeap h = new MyHeap(false);
+	MyHeap h = new MyHeap();
 	h.add(4);
 	h.add(6);
 	h.add(3);
@@ -100,7 +117,8 @@ public class MyHeap{
 	h.add(16);
 	h.add(2);
 	System.out.println(h);
-	//System.out.println(h.remove());
+	System.out.println(h.remove());
+	System.out.println(h);
 	System.out.println("Size: " + h.getSize());
     }
 }
