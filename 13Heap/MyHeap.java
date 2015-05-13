@@ -22,14 +22,14 @@ public class MyHeap{
 	int i = 1;
 	while (i < data.size()){
 	    int j = i;
-	    while (j < 2*i){
+	    while (j < 2*i+1 && j < size){
 		result += data.get(j) + " ";
 		j++;
 	    }
 	    result += "\n";
-	    i++;
+	    i*=2;
 	}
-	return result;*/
+	return result + "\n";*/
 	return data.toString();
     }
 
@@ -47,28 +47,33 @@ public class MyHeap{
     } 
 
     public void pushDownIntoPlace(int index){
-	if (MaxOrMin){
-	    int larger = 2*index;
-	    int smaller = 2*index + 1;
-	    if (data.get(larger+1) > data.get(larger)){
-		larger ++;
-		smaller --;
-	    }
-	    if (data.get(index) < data.get(larger)){
-		int temp = data.get(index);
-		data.set(index, data.set(larger, temp));
-		if (larger*2 <= size){
+	while (index*2+1 < size){
+	    if (MaxOrMin){
+		int larger = 2*index;
+		if (data.get(larger+1) > data.get(larger)){
+		    larger ++;
+		}
+		if (data.get(index) < data.get(larger)){
+		    int temp = data.get(index);
+		    data.set(index, data.set(larger, temp));
 		    pushDownIntoPlace(larger);
-		}
-	    }else if (data.get(index) < data.get(smaller)){
-		int temp = data.get(index);
-		data.set(index, data.set(smaller, temp));
-		if (smaller*2 <= size){
-		    pushDownIntoPlace(smaller);
-		}
-	    } else { return; }
+		    pushDownIntoPlace(larger+1);
+		} else { return; }
+		
+	    }else{
+		int smaller = 2*index;
+		if (data.get(smaller+1) < data.get(smaller)){
+		    smaller ++;
+		} if (data.get(index) > data.get(smaller)){
+		    int temp = data.get(index);
+		    data.set(index, data.set(smaller, temp));
+		    if (smaller*2 <= size){
+			pushDownIntoPlace(smaller);
+		    }
+		} else { return; }
+	    }
 	}
-	    
+	
     }
     public void add(int n){
 	size++;
@@ -118,6 +123,11 @@ public class MyHeap{
 	h.add(2);
 	System.out.println(h);
 	System.out.println(h.remove());
+	System.out.println(h);
+	System.out.println(h.remove());
+	System.out.println(h);
+	h.add(15);
+	h.add(2);
 	System.out.println(h);
 	System.out.println("Size: " + h.getSize());
     }
