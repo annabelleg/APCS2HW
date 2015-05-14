@@ -38,7 +38,7 @@ public class MyHeap{
 	int root = data.get(1);
 	data.set(1, data.get(size));
 	data.remove(size);
-	if (size > 1){
+	if (size > 2){
 	    pushDownIntoPlace(1);
 	}
 	data.set(0, --size);
@@ -47,30 +47,43 @@ public class MyHeap{
     } 
 
     public void pushDownIntoPlace(int index){
-	if (index*2+1 < size){
+	if (size == 3){
+	    if ((MaxOrMin && data.get(index) < data.get(index+1)) || (!MaxOrMin && data.get(index) > data.get(index+1))){
+		int temp = data.get(index);
+		data.set(index, data.set(index+1, temp));
+		//  pushDownIntoPlace(index+1);
+		}
+	
+	}
+	else if (index*2+1 < size){// || index == 1){
 	    if (MaxOrMin){
 		int larger = 2*index;
 		if (data.get(larger+1) > data.get(larger)){
 		    larger ++;
 		}
+		
 		if (data.get(index) < data.get(larger)){
 		    int temp = data.get(index);
 		    data.set(index, data.set(larger, temp));
 		    pushDownIntoPlace(larger);
-		    pushDownIntoPlace(larger+1);
-		    putInCorrectOrder(size);
+		    //  pushDownIntoPlace(larger+1);
+		    
 		} else { return; }
 		
 	    }else{
 		int smaller = 2*index;
-		if (data.get(smaller+1) < data.get(smaller)){
-		    smaller ++;
-		} if (data.get(index) > data.get(smaller)){
+		//if (index != 1){
+		    if (data.get(smaller) > data.get(smaller+1)){
+			smaller ++;
+			//   }
+		}
+		if (data.get(index) > data.get(smaller)){
 		    int temp = data.get(index);
 		    data.set(index, data.set(smaller, temp));
-		    if (smaller*2 <= size){
-			pushDownIntoPlace(smaller);
-		    }
+       
+		    pushDownIntoPlace(smaller);
+		    //  pushDownIntoPlace(smaller+1);
+		    
 		} else { return; }
 	    }
 	}
@@ -142,7 +155,17 @@ public class MyHeap{
 	System.out.println(h);
 	System.out.println(h.remove());
 	System.out.println(h);
+	h.add(14);
+	h.add(0);
+	h.add(12);
+	h.add(5);
+	System.out.println(h);
 	System.out.println(h.remove());
+	System.out.println(h);
+	System.out.println(h.remove());
+	System.out.println(h);System.out.println(h.remove());
+	System.out.println(h);System.out.println(h.remove());
+	System.out.println(h);System.out.println(h.remove());
 	System.out.println(h);
 	System.out.println("Size: " + h.getSize());
     }
