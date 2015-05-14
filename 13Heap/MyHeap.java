@@ -130,10 +130,13 @@ public class MyHeap{
 	    int toAdd = (int) (Math.random() *100);
 	    h.add(toAdd);
 	    System.out.println(h);
+	    System.out.println("Peek: " +h.peek());
 	}
 	for (int i = 15; i > 0; i--){
-	    System.out.println(h.remove());
+	    System.out.println("Remove: " +h.remove());
+	    System.out.println("Peek: " +h.peek());
 	    System.out.println(h);
+	    
 	}
 	System.out.println("Size: " + h.getSize());
     }
