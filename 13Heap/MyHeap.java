@@ -47,7 +47,7 @@ public class MyHeap{
     } 
 
     public void pushDownIntoPlace(int index){
-	while (index*2+1 < size){
+	if (index*2+1 < size){
 	    if (MaxOrMin){
 		int larger = 2*index;
 		if (data.get(larger+1) > data.get(larger)){
@@ -58,6 +58,7 @@ public class MyHeap{
 		    data.set(index, data.set(larger, temp));
 		    pushDownIntoPlace(larger);
 		    pushDownIntoPlace(larger+1);
+		    putInCorrectOrder(size);
 		} else { return; }
 		
 	    }else{
@@ -88,23 +89,25 @@ public class MyHeap{
 	return size;
     }
     public void putInCorrectOrder(int index){
-	if (MaxOrMin){//if it's a max_heap, do this:
-	    if (data.get(index) > data.get( (index)/2)){ // if child > parent
-		int temp = data.get(index);
-		data.set(index, data.set((index)/2, temp));
-		if (index/4 != 0){
+	if (index>1){
+	    if (MaxOrMin){//if it's a max_heap, do this:
+		if (data.get(index) > data.get( (index)/2)){ // if child > parent
+		    int temp = data.get(index);
+		    data.set(index, data.set((index)/2, temp));
+        
 		    putInCorrectOrder(index/2);
+			
 		}
-	    }
-	}else{ //if it's a min_heap, do this:
-	    if (data.get(index) < data.get( (index)/2)){ // if child < parent
-		int temp = data.get(index);
-		data.set(index, data.set((index)/2, temp));
-		if (index/4 != 0){
+	    }else{ //if it's a min_heap, do this:
+		if (data.get(index) < data.get( (index)/2)){ // if child < parent
+		    int temp = data.get(index);
+		    data.set(index, data.set((index)/2, temp));
+        
 		    putInCorrectOrder(index/2);
+			
 		}
-	    }
-	} 
+	    } 
+	}
     }
     public int peek(){
 	if (data.get(0)>0){
@@ -114,7 +117,7 @@ public class MyHeap{
     }
 
     public static void main(String[]args){
-	MyHeap h = new MyHeap();
+	MyHeap h = new MyHeap(false);
 	h.add(4);
 	h.add(6);
 	h.add(3);
@@ -128,6 +131,18 @@ public class MyHeap{
 	System.out.println(h);
 	h.add(15);
 	h.add(2);
+	System.out.println(h);
+	System.out.println(h.remove());
+	System.out.println(h);
+	System.out.println(h.remove());
+	System.out.println(h);
+	System.out.println(h.remove());
+	System.out.println(h);
+	System.out.println(h.remove());
+	System.out.println(h);
+	System.out.println(h.remove());
+	System.out.println(h);
+	System.out.println(h.remove());
 	System.out.println(h);
 	System.out.println("Size: " + h.getSize());
     }
