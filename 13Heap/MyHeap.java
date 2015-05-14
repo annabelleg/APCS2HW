@@ -21,18 +21,20 @@ public class MyHeap{
 	/*	String result = "";
 	int i = 1;
 	while (i < data.size()){
-	    int j = i;
+	    int j = i+1;
 	    while (j < 2*i+1 && j < size){
 		result += data.get(j) + " ";
 		j++;
 	    }
 	    result += "\n";
-	    i*=2;
+	    i++;
 	}
 	return result + "\n";*/
 	return data.toString();
+       
     }
 
+    
     public int remove(){
 	
 	int root = data.get(1);
@@ -51,44 +53,33 @@ public class MyHeap{
 	    if ((MaxOrMin && data.get(index) < data.get(index+1)) || (!MaxOrMin && data.get(index) > data.get(index+1))){
 		int temp = data.get(index);
 		data.set(index, data.set(index+1, temp));
-		//  pushDownIntoPlace(index+1);
-		}
-	
+	    }
 	}
-	else if (index*2+1 < size){// || index == 1){
-	    if (MaxOrMin){
+	else if (index*2+1 < size){
+	    if (MaxOrMin){                //if max_heap
 		int larger = 2*index;
 		if (data.get(larger+1) > data.get(larger)){
 		    larger ++;
 		}
-		
 		if (data.get(index) < data.get(larger)){
 		    int temp = data.get(index);
 		    data.set(index, data.set(larger, temp));
 		    pushDownIntoPlace(larger);
-		    //  pushDownIntoPlace(larger+1);
-		    
 		} else { return; }
-		
-	    }else{
+	    }else{                         //if min_heap
 		int smaller = 2*index;
-		//if (index != 1){
-		    if (data.get(smaller) > data.get(smaller+1)){
-			smaller ++;
-			//   }
+		if (data.get(smaller) > data.get(smaller+1)){
+		    smaller ++;
 		}
 		if (data.get(index) > data.get(smaller)){
 		    int temp = data.get(index);
 		    data.set(index, data.set(smaller, temp));
-       
 		    pushDownIntoPlace(smaller);
-		    //  pushDownIntoPlace(smaller+1);
-		    
 		} else { return; }
 	    }
 	}
-	
     }
+
     public void add(int n){
 	size++;
 	data.set(0, size);
@@ -98,9 +89,7 @@ public class MyHeap{
 	}
 	return;
     }
-    public int getSize(){
-	return size;
-    }
+
     public void putInCorrectOrder(int index){
 	if (index>1){
 	    if (MaxOrMin){//if it's a max_heap, do this:
@@ -122,6 +111,7 @@ public class MyHeap{
 	    } 
 	}
     }
+
     public int peek(){
 	if (data.get(0)>0){
 	    return data.get(1);
@@ -129,44 +119,22 @@ public class MyHeap{
 	throw new IndexOutOfBoundsException();
     }
 
+    public int getSize(){
+	return size;
+    }
+
     public static void main(String[]args){
 	MyHeap h = new MyHeap(false);
-	h.add(4);
-	h.add(6);
-	h.add(3);
-	h.add(8);
-	h.add(16);
-	h.add(2);
-	System.out.println(h);
-	System.out.println(h.remove());
-	System.out.println(h);
-	System.out.println(h.remove());
-	System.out.println(h);
-	h.add(15);
-	h.add(2);
-	System.out.println(h);
-	System.out.println(h.remove());
-	System.out.println(h);
-	System.out.println(h.remove());
-	System.out.println(h);
-	System.out.println(h.remove());
-	System.out.println(h);
-	System.out.println(h.remove());
-	System.out.println(h);
-	System.out.println(h.remove());
-	System.out.println(h);
-	h.add(14);
-	h.add(0);
-	h.add(12);
-	h.add(5);
-	System.out.println(h);
-	System.out.println(h.remove());
-	System.out.println(h);
-	System.out.println(h.remove());
-	System.out.println(h);System.out.println(h.remove());
-	System.out.println(h);System.out.println(h.remove());
-	System.out.println(h);System.out.println(h.remove());
-	System.out.println(h);
+	
+	for (int i = 15; i > 0; i--){
+	    int toAdd = (int) (Math.random() *100);
+	    h.add(toAdd);
+	    System.out.println(h);
+	}
+	for (int i = 15; i > 0; i--){
+	    System.out.println(h.remove());
+	    System.out.println(h);
+	}
 	System.out.println("Size: " + h.getSize());
     }
 }
