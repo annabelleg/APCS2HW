@@ -123,6 +123,10 @@ public class MyHeap{
 	return size;
     }
 
+    public int getHeight(){
+	return (int) (Math.log(size)/Math.log(2));
+    }
+
     public static void main(String[]args){
 	MyHeap h = new MyHeap(false);
 	
@@ -132,12 +136,15 @@ public class MyHeap{
 	    System.out.println(h);
 	    System.out.println("Peek: " +h.peek());
 	}
+	System.out.println("Size: " + h.getSize());
+	System.out.println("Height: " + h.getHeight());
 	for (int i = 15; i > 0; i--){
 	    System.out.println("Remove: " +h.remove());
-	    System.out.println("Peek: " +h.peek());
+	    //    System.out.println("Peek: " +h.peek());
 	    System.out.println(h);
 	    
 	}
 	System.out.println("Size: " + h.getSize());
+	System.out.println("Height: " + h.getHeight());
     }
 }
