@@ -19,17 +19,17 @@ public class MyHeap{
     }
     public String toString(){
 	/*	String result = "";
-	int i = 1;
-	while (i < data.size()){
-	    int j = i+1;
-	    while (j < 2*i+1 && j < size){
+		int i = 1;
+		while (i < data.size()){
+		int j = i+1;
+		while (j < 2*i+1 && j < size){
 		result += data.get(j) + " ";
 		j++;
-	    }
-	    result += "\n";
-	    i++;
-	}
-	return result + "\n";*/
+		}
+		result += "\n";
+		i++;
+		}
+		return result + "\n";*/
 	return data.toString();
        
     }
@@ -124,13 +124,13 @@ public class MyHeap{
     }
 
     public int getHeight(){
-	return (int) (Math.log(size)/Math.log(2));
+	return (int) (Math.log(size+1)/Math.log(2));
     }
 
     public static void main(String[]args){
 	MyHeap h = new MyHeap(false);
 	
-	for (int i = 15; i > 0; i--){
+	for (int i = 14; i > 0; i--){
 	    int toAdd = (int) (Math.random() *100);
 	    h.add(toAdd);
 	    System.out.println(h);
