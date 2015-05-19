@@ -2,7 +2,6 @@ public class RunningMedian{
     
     private MyHeap large;
     private MyHeap small;
-    private double median;
 
     public RunningMedian(){
 	large = new MyHeap(false);
@@ -13,11 +12,7 @@ public class RunningMedian{
 	return "gary.annabelle";
     }
 
-
     public double getMedian(){
-	return calculateMedian();
-    }
-    public double calculateMedian(){
 	if (small.getSize() == 0 && large.getSize() == 0){
 	    return 0.0;
 	}
@@ -31,7 +26,7 @@ public class RunningMedian{
 	
     }
     public void add(int value){
-	if (value > median) 
+	if (value > getMedian()) 
 	    large.add(value);
 	else
 	    small.add(value);
@@ -61,6 +56,8 @@ public class RunningMedian{
 	r.add(3);
 	System.out.println(r.getMedian());
 	r.add(4);
+	System.out.println(r.getMedian());
+	r.add(50);
 	System.out.println(r.getMedian());
     }
 }
