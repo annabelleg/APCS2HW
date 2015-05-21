@@ -18,6 +18,7 @@ public class Sorts{
 
     public static int[] heapsort(int[] ary){
         ary = heapify(ary);
+        
 	return heapsort(ary, ary.length-1);
     }
 
@@ -51,31 +52,34 @@ public class Sorts{
 	    int temp = ary[end];
 	    ary[end] = ary[0];
 	    ary[0] = temp;
-	    pushDownIntoPlace(ary, 0);
+	    pushDownIntoPlace(ary, 0, end);
 	    return heapsort(ary, end-1);
 	}
 	return ary;
 	
     }
     
-    public static void pushDownIntoPlace(int[]ary, int index){
+    public static void pushDownIntoPlace(int[]ary, int start, int end){
+	if (start == end){
+	    return;
+	}
 	if (ary.length == 3){
-	    if (ary[index] < ary[index+1]){
-		int temp = ary[index];
-		ary[index] =  ary[index+1];
-		ary[index+1] =  temp;
+	    if (ary[start] < ary[start+1]){
+		int temp = ary[start];
+		ary[start] =  ary[start+1];
+		ary[start+1] =  temp;
 	    }
 	}
-	else if (index*2+1 < ary.length){               
-	    int larger = 2*index;
+	else if (start*2+1 < end){               
+	    int larger = 2*start;
 	    if (ary[larger+1] > ary[larger]){
 		larger ++;
 		}
-	    if (ary[index] < ary[larger]){
-		int temp = ary[index];
-		ary[index] =  ary[larger];
+	    if (ary[start] < ary[larger]){
+		int temp = ary[start];
+		ary[start] =  ary[larger];
 		ary[larger]= temp;
-		pushDownIntoPlace(ary, larger);
+		pushDownIntoPlace(ary, larger, end);
 	    } else { return; }
 	    
 	}
