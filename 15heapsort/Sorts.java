@@ -48,11 +48,11 @@ public class Sorts{
     }
     
     public static int[] heapsort(int[] ary, int end){
-	if (end != 1){
+	if (end != 0){
 	    int temp = ary[end];
 	    ary[end] = ary[0];
 	    ary[0] = temp;
-	    pushDownIntoPlace(ary, 0, end);
+	    pushDownIntoPlace(ary, 0, end-1);
 	    return heapsort(ary, end-1);
 	}
 	return ary;
@@ -63,14 +63,14 @@ public class Sorts{
 	if (start == end){
 	    return;
 	}
-	if (ary.length == 3){
+	if (ary.length == 2){
 	    if (ary[start] < ary[start+1]){
 		int temp = ary[start];
 		ary[start] =  ary[start+1];
 		ary[start+1] =  temp;
 	    }
 	}
-	else if (start*2+1 < end){               
+	else if (start*2 < end){               
 	    int larger = 2*start;
 	    if (ary[larger+1] > ary[larger]){
 		larger ++;
