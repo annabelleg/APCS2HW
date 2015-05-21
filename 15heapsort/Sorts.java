@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class Sorts{
 
-   public String name(){
+   public static String name(){
     return "gary.annabelle";
   }
   
